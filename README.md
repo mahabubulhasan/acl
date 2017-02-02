@@ -34,3 +34,16 @@ NOTE: before running the seed you need to make sure your user table has `role_id
 $table->integer('role_id')->unsigned();
 $table->boolean('is_active');
 ```
+
+### middleware
+In your `kernal.php` file add this lines
+```php
+'auth.acl' => \Uzzal\Acl\Middleware\AuthenticateWithAcl::class,        
+'resource.maker' => \Uzzal\Acl\Middleware\ResourceMaker::class,
+```
+In your `route/web.php` file add this lines
+```php
+Route::group(['middleware' => ['resource.maker','auth.acl']], function () {    
+    Route::get('/home', 'HomeController@index');    
+});
+```
