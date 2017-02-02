@@ -34,6 +34,7 @@ NOTE: before running the seed you need to make sure your user table has `role_id
 $table->integer('role_id')->unsigned();
 $table->boolean('is_active');
 ```
+also update the User model accordingly.
 
 ### middleware
 In your `kernal.php` file add this lines
