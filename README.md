@@ -14,3 +14,7 @@ In your laravel config/app.php under providers add
 ```
 Uzzal\Acl\AclServiceProvider::class
 ```
+### publish
+```
+artisan vendor:publish
+```
