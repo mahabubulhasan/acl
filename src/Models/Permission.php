@@ -46,6 +46,6 @@ class Permission extends Model {
     }
     
     public function resourceItem(){
-        return $this->hasOne('App\Models\User\Resource', 'resource_id', 'resource_id');
+        return $this->hasOne('Uzzal\Acl\Models\Resource', 'resource_id', 'resource_id');
     }
 }
