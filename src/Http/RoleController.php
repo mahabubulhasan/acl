@@ -16,9 +16,9 @@ class RoleController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index() {                                
         return view('acl::role.index', [
-            'rows' => Role::paginate(30)
+            'rows' => Role::paginate(30)            
         ]);
     }
 

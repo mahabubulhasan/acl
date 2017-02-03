@@ -14,7 +14,7 @@
         <div class="col-md-12">            
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="pull-left">Resource List</div>
+                    <div class="pull-left">Role List {{ @nullsafe($obj->a->b->c)}}</div>
                     <div class="pull-right"><a class="btn btn-xs btn-primary" href="/role/create">Create New</a></div>
                     <div class="clearfix"></div>
                 </div>

@@ -1,17 +1,24 @@
 <?php
-
 namespace Uzzal\Acl;
 
 use Illuminate\Support\ServiceProvider;
+use Blade;
 
 class AclServiceProvider extends ServiceProvider {
+    use ViewCompiler;
 
     /**
      * Bootstrap the application services.
      *
      * @return void
      */
-    public function boot() {
+    public function boot() {                        
+        if(!method_exists(Blade::getFacadeRoot(), 'nullsafe')){
+            Blade::directive('nullsafe', function($expression) {
+                return self::_nullsafeParser($expression);
+            });
+        }
+        
         $this->loadViewsFrom(__DIR__ . '/views', 'acl');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
@@ -30,8 +37,7 @@ class AclServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        include_once __DIR__ . '/routes.php';
-        $this->app->make('Uzzal\Acl\TestController');
+        include_once __DIR__ . '/routes.php';        
     }
 
 }
