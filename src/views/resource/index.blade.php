@@ -27,7 +27,7 @@
                                     <th>Name</th>
                                     <th>Controller</th>
                                     <th>Action</th>
-                                    <th style="width:100px">Operation</th>
+                                    <th style="width:130px">Operation</th>
                                 </tr>
                             </thead>
                             <tbody>
