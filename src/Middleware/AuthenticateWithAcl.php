@@ -37,13 +37,19 @@ class AuthenticateWithAcl {
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
-    public function handle($request, Closure $next) {                                  
+    public function handle($request, Closure $next) {     
+        if($this->auth->guest()){
+            if ($request->ajax()) {
+                return response('Unauthorized.', 401);
+            } else {
+                return redirect()->guest('login');
+            }
+        }
+        
         if(!PermissionCheckService::canAccess(Route::currentRouteAction(), $this->auth->user())){
             return new Response('Forbidden', 403);
         }
-        
-        //$this->auth->authenticate();      
-        
+                        
         return $next($request);
     }
     
