@@ -11,7 +11,7 @@
  * </code>
  */
 function has_access($action){    
-    return App\Services\User\PermissionCheckService::hasAccess($action);
+    return Uzzal\Acl\Services\PermissionCheckService::hasAccess($action);
 }
 
 /**
@@ -26,7 +26,7 @@ function has_access($action){
  * </code>
  */
 function has_group_access($group){    
-    return App\Services\User\PermissionCheckService::hasGroupAccess($group);
+    return Uzzal\Acl\Services\PermissionCheckService::hasGroupAccess($group);
 }
 
 /**

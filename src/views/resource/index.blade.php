@@ -40,7 +40,7 @@
                                     <td>{{ $r->action }}</td>
                                     <td>
                                         <a class="btn btn-xs btn-primary" href="{{url('/resource/edit',['id' => $r->resource_id ])}}">Edit</a>
-                                        <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure you want to delete?')" href="{{url('/resource/destroy',['id' => $r->resource_id ])}}">Del</a>
+                                        <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure you want to delete?')" href="{{url('/resource/destroy',['id' => $r->resource_id ])}}">Delete</a>
                                     </td>
                                 </tr>
                                 @empty
