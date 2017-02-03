@@ -12,12 +12,16 @@ class AclServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        $this->loadViewsFrom(__DIR__.'/views','acl');
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadViewsFrom(__DIR__ . '/views', 'acl');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        $this->publishes([
+            __DIR__ . '/database/seeds/' => database_path('seeds')
+                ], 'seeds');
         
         $this->publishes([
-        __DIR__.'/database/seeds/' => database_path('seeds')
-        ], 'seeds');
+            __DIR__ . '/views' => resource_path('views/vendor/acl'),
+        ]);
     }
 
     /**
@@ -26,7 +30,7 @@ class AclServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        include_once __DIR__.'/routes.php';
+        include_once __DIR__ . '/routes.php';
         $this->app->make('Uzzal\Acl\TestController');
     }
 
