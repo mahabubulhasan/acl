@@ -13,16 +13,16 @@
                 <div class="panel-heading">New Role</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/role') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/role/store') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="form-group">
@@ -31,7 +31,7 @@
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
-                        
+
                         @foreach($resources as $k=>$actions)
                         <div class="form-group">
                             <label class="col-md-4 control-label">{{ $k }}</label>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         @endforeach
-                        
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
