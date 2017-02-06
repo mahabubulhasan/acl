@@ -48,3 +48,25 @@ Route::group(['middleware' => ['resource.maker','auth.acl']], function () {
     Route::get('/home', 'HomeController@index');    
 });
 ```
+### helpers
+
+`has_access` checks for if a role has access to a specific controller action.
+```php
+@if(has_access('User\UserController@getIndex'))
+OR
+@if(has_access('UserController@getIndex'))
+```
+
+`has_group_access` checks for if a role has access to a specific controller   
+```php 
+@if(has_group_access(['User-User','User-Role','User-Resource']))
+OR
+@if(has_group_access('User-User'))
+```
+
+`@nullsafe()` checks of if any of the object property is null or not in a fluent ($obj->prop->value) interface, if the chain break it will simply return empty string and prevent showing up `call to a member function of a non-object` exception.
+
+Blade example: 
+```php
+{{@nullsafe($obj->prop->value)}}
+```
