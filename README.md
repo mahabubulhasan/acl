@@ -48,7 +48,7 @@ Route::group(['middleware' => ['resource.maker','auth.acl']], function () {
     Route::get('/home', 'HomeController@index');    
 });
 ```
-IMPORTANT: `resource.maker` must have to be placed before `auth.acl`. In production you can remove `resource.maker` once you have all the resource generated.
+*IMPORTANT*: `resource.maker` must have to be placed before `auth.acl`. In production you can remove `resource.maker` once you have all the resource generated.
 
 ### helpers
 
