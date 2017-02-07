@@ -6,6 +6,7 @@ use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\UserRole;
 use Auth;
+use DB;
 
 /**
  * Description of PermissionCheckService
@@ -14,16 +15,42 @@ use Auth;
  */
 class PermissionCheckService {
         
+    private static $_roles=null;
     /**
      * 
      * @param int $userId
      * @return array
      */
     private static function _getUserRoles($userId){
-        return array_flatten(UserRole::Where('user_id', $userId)->get(['role_id'])->toArray());
+        if(!self::$_roles){
+            self::$_roles = array_flatten(UserRole::Where('user_id', $userId)->get(['role_id'])->toArray());
+        }
+        return self::$_roles;
     }
 
-    public static function canAccess($action, $user) {        
+    /**
+     * 
+     * @param type $action
+     * @param type $user
+     * @return boolean
+     */
+    public static function canAccess($action, $user){
+        $roles = self::_getUserRoles($user->user_id);
+        
+        return DB::table('permissions as p')
+                ->join('resources as r','r.resource_id','=','p.resource_id')
+                ->where('r.action', $action)
+                ->whereIn('p.role_id', $roles)
+                ->select('p.permission_id')->exists();                                
+    }
+        
+    /**
+     * @deprecated
+     * @param type $action
+     * @param type $user
+     * @return boolean
+     */
+    public static function _canAccess($action, $user) {                                
         $resource = Resource::where('action', '=', $action)
                 ->select(['resource_id'])
                 ->first();
@@ -57,8 +84,9 @@ class PermissionCheckService {
             $roles = [];
             if (Auth::user()) {                
                 $roles = self::_getUserRoles(Auth::id());
-            }            
-            self::$_permission_rows = Permission::roles($roles)->get();            
+            }                        
+            
+            self::$_permission_rows = Permission::with('resourceItem')->roles($roles)->get();                        
         }
 
         return self::$_permission_rows;
