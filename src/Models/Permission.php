@@ -40,6 +40,10 @@ class Permission extends Model {
     public function scopeRole($query, $role_id) {
         return $query->whereRoleId($role_id);
     }
+    
+    public function scopeRoles($query, $roles){
+        return $query->whereIn('role_id', $roles);
+    }
             
     public function scopeResource($query, $resource_id){
         return $query->whereResourceId($resource_id);
