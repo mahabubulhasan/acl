@@ -38,4 +38,8 @@ class UserRole extends Model {
         DB::table('user_roles')->insert($data);
     }
     
+    public function role(){
+        return $this->hasOne('Uzzal\Acl\Models\Role','role_id', 'role_id');
+    }
+    
 }
