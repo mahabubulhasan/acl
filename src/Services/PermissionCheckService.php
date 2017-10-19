@@ -35,7 +35,7 @@ class PermissionCheckService {
      * @return boolean
      */
     public static function canAccess($action, $user){
-        $roles = self::_getUserRoles($user->user_id);
+        $roles = self::_getUserRoles($user->{$user->getKeyName()});
         
         return DB::table('permissions as p')
                 ->join('resources as r','r.resource_id','=','p.resource_id')
@@ -59,7 +59,7 @@ class PermissionCheckService {
             return false;
         }
 
-        $roles = self::_getUserRoles($user->user_id);                
+        $roles = self::_getUserRoles($user->{$user->getKeyName()});
         return Permission::resource($resource->resource_id)->roles($roles)->select('permission_id')->exists();
     }
 
