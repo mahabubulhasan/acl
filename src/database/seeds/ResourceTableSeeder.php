@@ -24,14 +24,6 @@ class ResourceTableSeeder extends Seeder {
         Resource::create(['name'=>'Resource GET::Destroy', 'controller'=>'User-Resource', 'action'=>'Uzzal\Acl\Http\ResourceController@destroy']);
         Resource::create(['name'=>'Resource POST::Store', 'controller'=>'User-Resource', 'action'=>'Uzzal\Acl\Http\ResourceController@store']);
         Resource::create(['name'=>'Resource POST::Update', 'controller'=>'User-Resource', 'action'=>'Uzzal\Acl\Http\ResourceController@update']);
-        
-        Resource::create(['name'=>'User-User GET::Index', 'controller'=>'User-User', 'action'=>'Uzzal\Acl\Http\UserController@index']);
-        Resource::create(['name'=>'User-User GET::Create', 'controller'=>'User-User', 'action'=>'Uzzal\Acl\Http\UserController@create']);
-        Resource::create(['name'=>'User-User GET::Edit', 'controller'=>'User-User', 'action'=>'Uzzal\Acl\Http\UserController@edit']);
-        Resource::create(['name'=>'User-User GET::Destroy', 'controller'=>'User-User', 'action'=>'Uzzal\Acl\Http\UserController@destroy']);
-        Resource::create(['name'=>'User-User POST::Store', 'controller'=>'User-User', 'action'=>'Uzzal\Acl\Http\UserController@store']);
-        Resource::create(['name'=>'User-User POST::Update', 'controller'=>'User-User', 'action'=>'Uzzal\Acl\Http\UserController@update']);
-        Resource::create(['name'=>'User-User GET::Activate', 'controller'=>'User-User', 'action'=>'Uzzal\Acl\Http\UserController@activate']);
     }
 
 }
