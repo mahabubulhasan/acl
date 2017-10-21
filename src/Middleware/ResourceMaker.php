@@ -27,21 +27,23 @@ class ResourceMaker {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $action = $this->route->getActionName();        
+        $action = $this->route->getActionName();
+        $resource_id = sha1($action, false);
         $controller = $this->_getControllerName($action);
         $name = $request->getMethod().'::'.$this->_getActionName($action);
-        
+
         if ($controller) {
-            $resource = Resource::where('action', '=', $action)->get(['resource_id'])->first();
+            $resource = Resource::find($resource_id);
             if (!$resource && $name != 'Method') {
 
-                $resource = Resource::create([
+                Resource::create([
+                            'resource_id' => $resource_id,
                             'name' => $controller . ' ' . $name,
                             'controller' => $controller,
                             'action' => $action
                 ]);
 
-                Permission::create(['role_id' => 1, 'resource_id' => $resource->resource_id]);
+                Permission::create(['role_id' => 1, 'resource_id' => $resource_id]);
             }
         }
 

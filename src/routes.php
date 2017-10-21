@@ -1,5 +1,5 @@
 <?php
-Route::group(['middleware' => ['web', 'auth.acl'],'namespace'=>'Uzzal\Acl\Http'], function () {    
+Route::group(['middleware' => ['web', 'resource.maker','auth.acl'],'namespace'=>'Uzzal\Acl\Http'], function () {
     Route::get('role','RoleController@index');
     Route::get('role/create','RoleController@create');
     Route::post('role/store','RoleController@store');

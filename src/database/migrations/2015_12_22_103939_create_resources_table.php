@@ -12,11 +12,12 @@ class CreateResourcesTable extends Migration {
      */
     public function up() {
         Schema::create('resources', function (Blueprint $table) {
-            $table->increments('resource_id');
+            $table->string('resource_id', 45);
             $table->string('name', 60);
             $table->string('controller', 60);
             $table->string('action', 100)->unique();
             $table->timestamps();
+            $table->primary('resource_id');
         });
     }
 
