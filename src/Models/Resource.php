@@ -24,4 +24,8 @@ class Resource extends Model {
      * @var array
      */
     protected $fillable = ['name','controller','action'];
+    
+    public function permissoin(){
+        return $this->hasMany('Uzzal\Acl\Models\Permission', 'resource_id', 'resource_id');
+    }
 }

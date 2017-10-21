@@ -32,7 +32,7 @@ class ResourceMaker {
         $name = $request->getMethod().'::'.$this->_getActionName($action);
         
         if ($controller) {
-            $resource = Resource::where('action', '=', $action)->get()->first();
+            $resource = Resource::where('action', '=', $action)->get(['resource_id'])->first();
             if (!$resource && $name != 'Method') {
 
                 $resource = Resource::create([
