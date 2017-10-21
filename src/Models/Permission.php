@@ -5,6 +5,11 @@ namespace Uzzal\Acl\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
+/**
+ * Class Permission
+ * @package Uzzal\Acl\Models
+ * @author Mahabubul Hasan Uzzal <codehasan@gmail.com>
+ */
 class Permission extends Model {
     /**
      * Indicates if the model should be timestamped.
@@ -37,10 +42,6 @@ class Permission extends Model {
         DB::table('permissions')->insert($data);
     }
 
-    public function scopeRole($query, $role_id) {
-        return $query->whereRoleId($role_id);
-    }
-    
     public function scopeRoles($query, $roles){
         return $query->whereIn('role_id', $roles);
     }

@@ -14,7 +14,7 @@ use Validator;
 /**
  * Description of ResourceService
  *
- * @author uzzal
+ * @author Mahabubul Hasan Uzzal <codehasan@gmail.com>uzzal
  */
 class ResourceService {
     /**
@@ -58,12 +58,10 @@ class ResourceService {
      * @return 
      */
     public function update(array $data, $id){
-        $row = Resource::find($id);
-        
-        $row->name = $data['name'];
-        $row->controller = $data['controller'];
-        $row->action = $data['action'];
-        
-        return $row->save();
+        return Resource::find($id)->update([
+            'name' => $data['name'],
+            'controller' => $data['controller'],
+            'action' => $data['action']
+        ]);
     }
 }

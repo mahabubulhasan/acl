@@ -3,10 +3,8 @@
 namespace Uzzal\Acl\Services;
 
 use Uzzal\Acl\Models\Permission;
-use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\UserRole;
 use Auth;
-use DB;
 
 /**
  * Description of PermissionCheckService
@@ -29,15 +27,7 @@ class PermissionCheckService {
      */
     public static function canAccess($action, $user){
         $roles = self::_getUserRoles($user->{$user->getKeyName()});
-
-        return Permission::where('resource_id', sha1($action, false))
-            ->whereIn('role_id', $roles)
-            ->exists();
-
-        /*return DB::table('permissions as p')
-                ->where('p.resource_id', sha1($action))
-                ->whereIn('p.role_id', $roles)
-                ->select('p.permission_id')->exists();*/
+        return Permission::resource(sha1($action, false))->roles($roles)->exists();
     }
 
     /**
@@ -50,25 +40,6 @@ class PermissionCheckService {
             self::$_roles = array_flatten(UserRole::Where('user_id', $userId)->get(['role_id'])->toArray());
         }
         return self::$_roles;
-    }
-
-    /**
-     * @deprecated
-     * @param type $action
-     * @param type $user
-     * @return boolean
-     */
-    public static function _canAccess($action, $user) {
-        $resource = Resource::where('action', '=', $action)
-                ->select(['resource_id'])
-                ->first();
-
-        if (!$resource) {
-            return false;
-        }
-
-        $roles = self::_getUserRoles($user->{$user->getKeyName()});
-        return Permission::resource($resource->resource_id)->roles($roles)->select('permission_id')->exists();
     }
 
     /**
