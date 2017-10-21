@@ -11,27 +11,19 @@ class PermissionTableSeeder extends Seeder {
      * @return void
      */
     public function run() {        
-        Permission::create(['role_id'=>1,'resource_id'=>1]);
-        Permission::create(['role_id'=>1,'resource_id'=>2]);
-        Permission::create(['role_id'=>1,'resource_id'=>3]);
-        Permission::create(['role_id'=>1,'resource_id'=>4]);
-        Permission::create(['role_id'=>1,'resource_id'=>5]);
-        Permission::create(['role_id'=>1,'resource_id'=>6]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\RoleController@index', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\RoleController@create', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\RoleController@edit', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\RoleController@destroy', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\RoleController@store', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\RoleController@update', false)]);
         
-        Permission::create(['role_id'=>1,'resource_id'=>7]);
-        Permission::create(['role_id'=>1,'resource_id'=>8]);
-        Permission::create(['role_id'=>1,'resource_id'=>9]);
-        Permission::create(['role_id'=>1,'resource_id'=>10]);
-        Permission::create(['role_id'=>1,'resource_id'=>11]);
-        Permission::create(['role_id'=>1,'resource_id'=>12]);
-        
-        Permission::create(['role_id'=>1,'resource_id'=>13]);
-        Permission::create(['role_id'=>1,'resource_id'=>14]);
-        Permission::create(['role_id'=>1,'resource_id'=>15]);
-        Permission::create(['role_id'=>1,'resource_id'=>16]);
-        Permission::create(['role_id'=>1,'resource_id'=>17]);
-        Permission::create(['role_id'=>1,'resource_id'=>18]);
-        Permission::create(['role_id'=>1,'resource_id'=>19]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\ResourceController@index', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\ResourceController@create', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\ResourceController@edit', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\ResourceController@destroy', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\ResourceController@store', false)]);
+        Permission::create(['role_id'=>1,'resource_id' => sha1('Uzzal\Acl\Http\ResourceController@update', false)]);
     }
 }
 
