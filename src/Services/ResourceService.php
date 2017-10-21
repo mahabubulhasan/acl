@@ -44,6 +44,7 @@ class ResourceService {
      */
     public function create(array $data){
         return Resource::create([
+            'resource_id'=>sha1($data['action'], false),
             'name' => $data['name'],
             'controller' => $data['controller'],
             'action' => $data['action']
