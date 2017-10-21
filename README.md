@@ -1,6 +1,6 @@
 # acl
 
-Dynamically configurable access control for Laravel
+Dynamically configurable access control for Laravel. One user can have multiple roles.
 
 ### install
 
@@ -20,23 +20,29 @@ artisan vendor:publish
 ```
 
 ### seed
-At your DatabaseSeeder add
+At your `DatabaseSeeder.php` under `database/seeds` add the following lines
 
 ```php
-$this->call(UserTableSeeder::class);        
+$this->call(UserTableSeeder::class); //optional        
 $this->call(RoleTableSeeder::class);
 $this->call(ResourceTableSeeder::class);
 $this->call(PermissionTableSeeder::class);
 $this->call(UserRoleTableSeeder::class);
 ```
+NOTE: If you see any kind of class not found type error try running `composer dump-autoload` 
 
-NOTE: before running the seed you need to make sure you have customized this user table seeder based on your need for example we have a `is_active` column
+### artisan
+This library comes with an artisan command `acl:resource` to automatically create all the resources (_controller@action_) available in your project under `app/Http/Controllers` directory. To activate this command you need to add these following lines to your `app/Console/Kernel.php` file. 
 ```php
-$table->boolean('is_active');
+protected $commands = [
+    Uzzal\Acl\Commands\AclResource::class
+];
+
 ```
-and also update the User model accordingly.
 
 ### middleware
+This ACL library comes with two middleware as shown below. `AuthenticateWithAcl` is the middleware you need. The other `ResourceMaker` middle ware is just a helper to create resource dynamically if it doesn't exists in the first place and assign permission for it to the `developer` role.  
+
 In your `kernal.php` file add this lines
 ```php
 'auth.acl' => \Uzzal\Acl\Middleware\AuthenticateWithAcl::class,        
