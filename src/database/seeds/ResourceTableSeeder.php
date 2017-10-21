@@ -11,6 +11,12 @@ class ResourceTableSeeder extends Seeder {
      * @return void
      */
     public function run() {                
+		$data=[
+			'name'=> 'Role GET::Index'
+			'controller' => 'User-Role',
+			'action' => 'Uzzal\Acl\Http\RoleController@index'
+		];
+		
         Resource::create(['name'=>'Role GET::Index', 'controller'=>'User-Role', 'action'=>'Uzzal\Acl\Http\RoleController@index']);
         Resource::create(['name'=>'Role GET::Create', 'controller'=>'User-Role', 'action'=>'Uzzal\Acl\Http\RoleController@create']);
         Resource::create(['name'=>'Role GET::Edit', 'controller'=>'User-Role', 'action'=>'Uzzal\Acl\Http\RoleController@edit']);

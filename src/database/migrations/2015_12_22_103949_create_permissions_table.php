@@ -14,7 +14,7 @@ class CreatePermissionsTable extends Migration {
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('permission_id');
             $table->integer('role_id')->unsigned();
-            $table->integer('resource_id')->unsigned();
+            $table->string('resource_id', 45);
         });
     }
 
