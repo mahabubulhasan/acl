@@ -53,22 +53,10 @@ class RoleService {
     }
     
     public function getNewAndDeletedPermissions($old, $new){
-        $insert = array();
-        $delete = array();
-        
-        foreach($old as $v){
-            if(!in_array($v, $new)){
-                $delete[] = $v;
-            }
-        }
-        
-        foreach($new as $v){
-            if(!in_array($v, $old)){
-                $insert[] = $v;
-            }
-        }
-        
-        return ['insert' => $insert, 'delete' => $delete];
+        return [
+            'insert' => array_diff($new, $old),
+            'delete' => array_diff($old, $new)
+        ];
     }
     
     public function create(array $data){
