@@ -27,10 +27,9 @@ class RoleService {
             'name' => $action,
         ]);
     }
-        
+
     /**
-     * 
-     * @param array $data
+     * @param $row
      * @return array
      */
     public function groupResource($row){
@@ -76,8 +75,10 @@ class RoleService {
         $role = new Role();
         $role->name = $data['name'];
         $role->save();
-        
-        $this->_createPermission($role->role_id, $data['resource']);        
+
+        if(array_key_exists('resource', $data)){
+            $this->_createPermission($role->role_id, $data['resource']);
+        }
     }
     
     public function update($id, array $data){

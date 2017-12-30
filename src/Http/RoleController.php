@@ -23,9 +23,8 @@ class RoleController extends Controller {
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param RoleService $service
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(RoleService $service) {
         return view('acl::role.create', [
@@ -34,26 +33,20 @@ class RoleController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
+     * @param Request $request
+     * @param RoleService $service
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, RoleService $service) {        
-        $validator = $service->validator($request->all());
-
-        if ($validator->fails()) {
-            $this->throwValidationException($request, $validator);
-        }
-
+        $service->validator($request->all())->validate();
         $service->create($request->all());
         return redirect('/role')->with('msg', 'Role created successfully!');
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @param RoleService $service
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id, RoleService $service) {        
         return view('acl::role.edit', [
@@ -65,27 +58,21 @@ class RoleController extends Controller {
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @param RoleService $service
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update($id, RoleService $service, Request $request) {        
-        $validator = $service->validator($request->all(), $id);
-
-        if ($validator->fails()) {
-            $this->throwValidationException($request, $validator);
-        }
-
+        $service->validator($request->all(), $id)->validate();
         $service->update($id, $request->all());
         return redirect('/role')->with('msg', 'Role updated successfully!');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy($id) {
         Role::destroy($id);
