@@ -58,11 +58,7 @@ class PermissionCheckService {
 
     public static function getResources() {
         if (count(self::$_resources) == 0) {
-            $rows = self::_getPermissionRows();
-
-            foreach ($rows as $r) {
-                self::$_resources[] = $r->resourceItem->action;
-            }
+            self::_computeResource();
         }
 
         return self::$_resources;
@@ -103,15 +99,22 @@ class PermissionCheckService {
 
     public static function getResourceGroup() {
         if (count(self::$_resource_group) == 0) {
-            $rows = self::_getPermissionRows();
-            foreach ($rows as $r) {
-                self::$_resource_group[] = $r->resourceItem->controller;
-            }
-
-            self::$_resource_group = array_unique(self::$_resource_group);
+            self::_computeResource();
         }
 
         return self::$_resource_group;
+    }
+
+    private static function _computeResource(){
+        $rows = self::_getPermissionRows();
+        foreach ($rows as $r) {
+            if($r->resourceItem){
+                self::$_resource_group[] = $r->resourceItem->controller;
+                self::$_resources[] = $r->resourceItem->action;
+            }
+        }
+
+        self::$_resource_group = array_unique(self::$_resource_group);
     }
 
 }
