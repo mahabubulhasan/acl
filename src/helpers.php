@@ -2,7 +2,8 @@
 if (! function_exists('has_access')) {
     /**
      * 
-     * @param mix|string $action
+     * @param string $action
+     * @param bool $isActionFullPath
      * @return bool
      * @example
      * <code>
@@ -11,8 +12,8 @@ if (! function_exists('has_access')) {
      * @if(has_access('UserController@getIndex'))
      * </code>
      */
-    function has_access($action){    
-        return Uzzal\Acl\Services\PermissionCheckService::hasAccess($action);
+    function has_access($action, $isActionFullPath=false){
+        return Uzzal\Acl\Services\PermissionCheckService::hasAccess($action, $isActionFullPath);
     }
 }
 

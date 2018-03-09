@@ -45,6 +45,7 @@ class PermissionCheckService {
     /**
      *
      * @param string $action
+     * @param bool $isActionFullPath
      * @return boolean
      * @example
      * <code>
@@ -52,7 +53,10 @@ class PermissionCheckService {
      * hasAccess('Form\RegistrationController@getIndex')
      * </code>
      */
-    public static function hasAccess($action) {
+    public static function hasAccess($action, $isActionFullPath=false) {
+        if($isActionFullPath){
+            return in_array($action, self::getResources());
+        }
         return in_array(self::$_actionPrefix . $action, self::getResources());
     }
 
