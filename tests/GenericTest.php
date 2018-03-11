@@ -7,9 +7,10 @@
 namespace Uzzal\Acl\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Uzzal\Acl\Commands\AclResource;
 use Uzzal\Acl\Services\RoleService;
 
-class RoleServiceTest extends TestCase
+class GenericTest extends TestCase
 {
     public function testGetNewAndDeletedPermissions(){
         $service = new RoleService();
@@ -23,4 +24,5 @@ class RoleServiceTest extends TestCase
 
         $this->assertEquals($output, $service->getNewAndDeletedPermissions($old, $new));
     }
+
 }

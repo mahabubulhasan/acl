@@ -27,10 +27,8 @@ class AclResource extends Command
      */
     protected $description = 'Automatically make resources for Uzzal\ACL library';
 
-    protected $_skip=[
-        'App\Http\Controllers\Auth'
-    ];
-
+    protected $_skip=[];
+    private $_controller_path_pattern = '';
     private $_roles=[];
 
     /**
@@ -41,6 +39,9 @@ class AclResource extends Command
     public function __construct()
     {
         parent::__construct();
+        $prefix = config('acl.controller_namespace_prefix', 'App\Http\Controllers');
+        $this->_skip[] = $prefix.'\Auth';
+        $this->_controller_path_pattern = str_replace('\\', '\\\\\\', $prefix);
     }
 
     /**
@@ -180,13 +181,17 @@ class AclResource extends Command
         return false;
     }
 
+    public function controllerName($action){
+        return $this->_getControllerName($action);
+    }
+
     /**
      * @des Namespace will be \Form\RegistrationController will be like Form-Registration
      * @param string $action
      * @return string
      */
     private function _getControllerName($action) {
-        $patterns[] = '/App\\\Http\\\Controllers\\\([a-zA-Z\\\]+)Controller\@/';
+        $patterns[] = '/'.$this->_controller_path_pattern.'\\\([a-zA-Z\\\]+)Controller\@/';
         $patterns[] = '/Uzzal\\\Acl\\\Http\\\([a-zA-Z\\\]+)Controller\@/';
 
         foreach($patterns as $p){

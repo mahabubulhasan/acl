@@ -14,9 +14,12 @@ class ResourceMaker {
      * @var Route
      */
     private $route;
+    private $_controller_path_pattern = 'App\\\Http\\\Controllers';
 
     public function __construct(Route $route) {
         $this->route = $route;
+        $prefix = config('acl.controller_namespace_prefix', 'App\Http\Controllers');
+        $this->_controller_path_pattern = str_replace('\\', '\\\\\\', $prefix);
     }
 
     /**
@@ -56,7 +59,7 @@ class ResourceMaker {
      * @return string
      */
     private function _getControllerName($action) {
-        $pattern = '/App\\\Http\\\Controllers\\\([a-zA-Z\\\]+)Controller\@/';
+        $pattern = '/'.$this->_controller_path_pattern.'\\\([a-zA-Z\\\]+)Controller\@/';
         preg_match($pattern, $action, $matches);
 
         if (count($matches) == 2) {
