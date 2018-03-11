@@ -4,6 +4,7 @@ namespace Uzzal\Acl\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Uzzal\Acl\Services\PermissionCheckService;
 use Route;
@@ -28,16 +29,11 @@ class AuthenticateWithAcl {
     }
 
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string[]  ...$guards
-     * @return mixed
-     *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @param $request
+     * @param Closure $next
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response|mixed|\Symfony\Component\HttpFoundation\Response
      */
-    public function handle($request, Closure $next) {     
+    public function handle(Request $request, Closure $next) {
         if($this->auth->guest()){
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
@@ -45,7 +41,6 @@ class AuthenticateWithAcl {
                 return redirect()->guest('login');
             }
         }
-        
         if(!PermissionCheckService::canAccess(Route::currentRouteAction(), $this->auth->user())){
             return new Response('Forbidden', 403);
         }

@@ -75,6 +75,9 @@ class RoleController extends Controller {
      * @throws \Exception
      */
     public function destroy($id) {
+        if($id==1){
+            redirect('/role')->with('msg', 'Sorry! developer role is not removable.');
+        }
         Role::destroy($id);
         Permission::where('role_id', '=', $id)->delete();
         return redirect('/role')->with('msg', 'Role removed successfully!');
