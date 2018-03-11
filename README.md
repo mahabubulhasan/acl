@@ -18,6 +18,8 @@ Uzzal\Acl\AclServiceProvider::class
 ```
 artisan vendor:publish
 ```
+This command will publish view files inside `views/vendor/acl`, 
+seed files inside the `databases/seed` and a config file `config/acl.php`.
 
 ### seed
 At your `DatabaseSeeder.php` under `database/seeds` add the following lines
@@ -39,6 +41,23 @@ protected $commands = [
 ];
 
 ```
+
+### @annotation
+
+Acl library now has two annotation support `@resource`, and `@allowRole` to be used with controller action
+```php
+/**
+* @resource('able to see home')
+* @allowRole('Default, Admin')
+*/
+public function index()
+{
+return view('home');
+}
+```
+NOTE: by default **developer** role has the highest permission level, and it doesn't need to be mentioned in the 
+`@allowRole` annotation. If you remove the `@allowRole` annotation it won't delete the permissions from the 
+database, but if you change the role list in the annotation then it will update the databased accordingly.
 
 ### middleware
 This ACL library comes with two middleware as shown below. `AuthenticateWithAcl` is the middleware you need. The other `ResourceMaker` middle ware is just a helper to create resource dynamically if it doesn't exists in the first place and assign permission for it to the `developer` role.  
