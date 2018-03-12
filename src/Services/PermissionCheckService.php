@@ -17,7 +17,6 @@ class PermissionCheckService {
     private static $_resources = [];
     private static $_permission_rows = [];
     private static $_resource_group = [];
-    private static $_actionPrefix = 'App\\Http\\Controllers\\';
 
     /**
      *
@@ -57,7 +56,8 @@ class PermissionCheckService {
         if($isActionFullPath){
             return in_array($action, self::getResources());
         }
-        return in_array(self::$_actionPrefix . $action, self::getResources());
+        $prefix = str_replace('\\', '\\\\', config('acl.controller_namespace_prefix', 'App\Http\Controllers'));
+        return in_array($prefix .'\\'. $action, self::getResources());
     }
 
     public static function getResources() {
