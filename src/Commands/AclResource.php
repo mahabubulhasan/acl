@@ -3,6 +3,7 @@
 namespace Uzzal\Acl\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Route;
 use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Models\Resource;
@@ -110,10 +111,16 @@ class AclResource extends Command
     }
 
     private function _assignPermission($resource_id, $roles){
-        Permission::create(['role_id' => 1, 'resource_id' => $resource_id]);
+        $this->_createPermission(1, $resource_id);
         foreach($roles as $r){
-            Permission::create(['role_id' => $r, 'resource_id' => $resource_id]);
+            $this->_createPermission($r, $resource_id);
         }
+    }
+
+    private function _createPermission($role_id, $resource_id){
+        try{
+            Permission::create(['role_id' => $role_id, 'resource_id' => $resource_id]);
+        }catch (QueryException $e){}
     }
 
     private function _getExistingRoleIds($resource_id){

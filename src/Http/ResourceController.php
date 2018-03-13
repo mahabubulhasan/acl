@@ -8,11 +8,9 @@ use Uzzal\Acl\Services\ResourceService;
 use Uzzal\Acl\Models\Resource;
 
 class ResourceController extends Controller {
-    
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index() {
         return view('acl::resource.index', [
@@ -21,18 +19,16 @@ class ResourceController extends Controller {
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create() {
         return view('acl::resource.create');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
+     * @param ResourceService $resourceService
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(ResourceService $resourceService, Request $request) {
         $validator = $resourceService->validator($request->all());
@@ -47,10 +43,8 @@ class ResourceController extends Controller {
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id) {
         return view('acl::resource.edit', [
@@ -61,10 +55,10 @@ class ResourceController extends Controller {
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @param ResourceService $resourceService
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update($id, ResourceService $resourceService, Request $request) {
         $validator = $resourceService->validator($request->all(), $id);
@@ -78,10 +72,8 @@ class ResourceController extends Controller {
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id) {
         if (Resource::destroy($id)) {

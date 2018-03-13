@@ -52,7 +52,7 @@ Acl library now has two annotation support `@resource`, and `@allowRole` to be u
 */
 public function index()
 {
-return view('home');
+    return view('home');
 }
 ```
 NOTE: by default **developer** role has the highest permission level, and it doesn't need to be mentioned in the 

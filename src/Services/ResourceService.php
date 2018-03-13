@@ -50,12 +50,11 @@ class ResourceService {
             'action' => $data['action']
         ]);
     }
-    
+
     /**
-     * 
      * @param array $data
-     * @param type $id
-     * @return 
+     * @param $id
+     * @return mixed
      */
     public function update(array $data, $id){
         return Resource::find($id)->update([
