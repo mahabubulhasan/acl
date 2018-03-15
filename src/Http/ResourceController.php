@@ -15,8 +15,15 @@ class ResourceController extends Controller {
      * @return Response
      */
     public function index() {
+        $rows = new Resource;
+        if($q = request('q')){
+            $rows = $rows->where('name', 'LIKE', "%{$q}%")
+                        ->orWhere('controller', 'LIKE', "%{$q}%")
+                        ->orWhere('action', 'LIKE', "%{$q}%");
+        }
+
         return view('acl::resource.index', [
-            'rows' => Resource::paginate(30)
+            'rows' => $rows->paginate(30)
         ]);
     }
 
