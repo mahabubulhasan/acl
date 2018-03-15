@@ -15,17 +15,15 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="pull-left">Resource List</div>
+                    <div class="pull-right"><a class="btn btn-md btn-primary" href="{{url('/resource/create')}}">Create New</a></div>
                     <div class="pull-right">
-                        <form action="" method="get">
+                        <form action="" method="get" style="width:300px;margin-right:10px;">
                             <div class="input-group">
                                 <input type="text" name="q" value="{{old('q', request('q'))}}" class="form-control" placeholder="Search..." aria-describedby="basic-addon2">
-                                <span class="input-group-addon" id="basic-addon2">
-                                    <button class="btn btn-xs btn-primary">Find</button>
-                                </span>
+                                <buttonid="basic-addon2" class="input-group-addon btn btn-xs btn-primary">Find</button>
                             </div>
                         </form>
                     </div>
-                    <div class="pull-right"><a class="btn btn-xs btn-primary" href="/resource/create">Create New</a></div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
