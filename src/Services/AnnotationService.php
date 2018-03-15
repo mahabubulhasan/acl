@@ -49,6 +49,9 @@ class AnnotationService
      * @return string
      */
     private function _parse($pattern){
+        if(!$this->_class){
+            return '';
+        }
         try {
             $method = new \ReflectionMethod($this->_class, $this->_method);
             preg_match($pattern, $method->getDocComment(), $matches);
