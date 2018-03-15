@@ -23,7 +23,9 @@ class AnnotationService
      */
     public function __construct($action)
     {
-        list($this->_class, $this->_method) = explode('@', $action);
+        if(strpos($action, '@')){
+            list($this->_class, $this->_method) = explode('@', $action);
+        }
     }
 
     /**
