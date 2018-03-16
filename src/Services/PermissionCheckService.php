@@ -56,7 +56,7 @@ class PermissionCheckService {
         if($isActionFullPath){
             return in_array($action, self::getResources());
         }
-        $prefix = str_replace('\\', '\\\\', config('acl.controller_namespace_prefix', 'App\Http\Controllers'));
+        $prefix = config('acl.controller_namespace_prefix', 'App\Http\Controllers');
         return in_array($prefix .'\\'. $action, self::getResources());
     }
 
