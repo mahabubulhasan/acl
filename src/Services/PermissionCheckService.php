@@ -69,12 +69,8 @@ class PermissionCheckService {
     }
 
     private static function _getPermissionRows() {
-        if (count(self::$_permission_rows) == 0) {
-            $roles = [];
-            if (Auth::user()) {
-                $roles = self::_getUserRoles(Auth::id());
-            }
-
+        if (count(self::$_permission_rows) == 0 && Auth::user()) {
+            $roles = self::_getUserRoles(Auth::id());
             self::$_permission_rows = Permission::with('resourceItem')->roles($roles)->get();
         }
 

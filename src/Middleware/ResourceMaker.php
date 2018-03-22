@@ -3,6 +3,7 @@
 namespace Uzzal\Acl\Middleware;
 
 use Closure;
+use Illuminate\Database\QueryException;
 use Illuminate\Routing\Route;
 use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\Permission;
@@ -46,11 +47,17 @@ class ResourceMaker {
                             'action' => $action
                 ]);
 
-                Permission::create(['role_id' => 1, 'resource_id' => $resource_id]);
+                $this->_createPermission(1, $resource_id);
             }
         }
 
         return $next($request);
+    }
+
+    private function _createPermission($role_id, $resource_id){
+        try{
+            Permission::create(['role_id' => $role_id, 'resource_id' => $resource_id]);
+        }catch (QueryException $e){}
     }
 
     /**
@@ -71,7 +78,7 @@ class ResourceMaker {
 
     /**
      *
-     * @param type $action
+     * @param string $action
      * @return string
      */
     private function _getActionName($action) {

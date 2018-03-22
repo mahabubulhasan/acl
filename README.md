@@ -2,6 +2,10 @@
 
 Dynamically configurable access control for Laravel. One user can have multiple roles.
 
+__NOTE:__ If you are using Bootstrap 3 in your existing project, in that case please 
+use `v1.1.x` series of this library
+
+
 ### install
 
 ```
@@ -52,7 +56,7 @@ Acl library now has two annotation support `@resource`, and `@allowRole` to be u
 */
 public function index()
 {
-return view('home');
+    return view('home');
 }
 ```
 NOTE: by default **developer** role has the highest permission level, and it doesn't need to be mentioned in the 
@@ -74,6 +78,12 @@ Route::group(['middleware' => ['resource.maker','auth.acl']], function () {
 });
 ```
 *IMPORTANT*: `resource.maker` must have to be placed before `auth.acl`. In production you can remove `resource.maker` once you have all the resource generated.
+
+### Role &amp; Resource UI
+
+To access role visit `YOUR-HOST/role` url
+
+To access resource UI visit `YOUR-HOST/resource` url
 
 ### helpers
 
