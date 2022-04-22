@@ -14,29 +14,14 @@ use Uzzal\Acl\Services\AnnotationService;
 
 class AclResource extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'acl:resource';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Automatically make resources for Uzzal\ACL library';
 
     protected $_skip=[];
     private $_controller_path_pattern = '';
     private $_roles=[];
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
@@ -45,11 +30,6 @@ class AclResource extends Command
         $this->_controller_path_pattern = str_replace('\\', '\\\\\\', $prefix);
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $l = Route::getRoutes();
@@ -152,10 +132,6 @@ class AclResource extends Command
         }
     }
 
-    /**
-     * @param string $allowRole
-     * @return array
-     */
     private function _getAllowRoleId($allowRole){
         if(!$allowRole){
             return [];
@@ -192,11 +168,6 @@ class AclResource extends Command
         return $this->_getControllerName($action);
     }
 
-    /**
-     * @des Namespace will be \Form\RegistrationController will be like Form-Registration
-     * @param string $action
-     * @return string
-     */
     private function _getControllerName($action) {
         $patterns[] = '/'.$this->_controller_path_pattern.'\\\([a-zA-Z\\\]+)Controller\@/';
         $patterns[] = '/Uzzal\\\Acl\\\Http\\\([a-zA-Z\\\]+)Controller\@/';
@@ -211,11 +182,6 @@ class AclResource extends Command
         return null;
     }
 
-    /**
-     *
-     * @param type $action
-     * @return string
-     */
     private function _getActionName($action) {
         $pattern = '/([a-zA-Z]+)$/';
         preg_match($pattern, $action, $matches);

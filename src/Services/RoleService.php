@@ -3,19 +3,10 @@ namespace Uzzal\Acl\Services;
 
 use Uzzal\Acl\Models\Role;
 use Uzzal\Acl\Models\Permission;
-use Validator;
-/**
- * Description of RoleService
- *
- * @author uzzal
- */
+use Illuminate\Support\Facades\Validator;
+
 class RoleService {
-    /**
-     *
-     * @param  array  $data
-     * @param int $id
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
+
     public function validator(array $data, $id=0) {
         if($id){
             $action = 'required|max:30|unique:roles,name,'.$id.',role_id';
@@ -28,10 +19,6 @@ class RoleService {
         ]);
     }
 
-    /**
-     * @param $row
-     * @return array
-     */
     public function groupResource($row){
         $data = array();
                         

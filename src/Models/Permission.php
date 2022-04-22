@@ -3,7 +3,7 @@
 namespace Uzzal\Acl\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Permission
@@ -11,31 +11,13 @@ use DB;
  * @author Mahabubul Hasan Uzzal <codehasan@gmail.com>
  */
 class Permission extends Model {
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
+
     public $timestamps = false;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'permissions';
 
-    /**
-     *
-     * @var integer
-     */
     protected $primaryKey = 'permission_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = ['role_id', 'resource_id'];
 
     public static function bulkInsert($data) {

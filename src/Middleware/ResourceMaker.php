@@ -10,10 +10,6 @@ use Uzzal\Acl\Models\Permission;
 
 class ResourceMaker {
 
-    /**
-     *
-     * @var Route
-     */
     private $route;
     private $_controller_path_pattern = 'App\\\Http\\\Controllers';
 
@@ -23,13 +19,6 @@ class ResourceMaker {
         $this->_controller_path_pattern = str_replace('\\', '\\\\\\', $prefix);
     }
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
     public function handle($request, Closure $next) {
         $action = $this->route->getActionName();
         $resource_id = sha1($action, false);
@@ -60,11 +49,6 @@ class ResourceMaker {
         }catch (QueryException $e){}
     }
 
-    /**
-     * @des Namespace will be \Form\RegistrationController will be like Form-Registration
-     * @param string $action
-     * @return string
-     */
     private function _getControllerName($action) {
         $pattern = '/'.$this->_controller_path_pattern.'\\\([a-zA-Z\\\]+)Controller\@/';
         preg_match($pattern, $action, $matches);
@@ -76,11 +60,6 @@ class ResourceMaker {
         return null;
     }
 
-    /**
-     *
-     * @param string $action
-     * @return string
-     */
     private function _getActionName($action) {
         $pattern = '/([a-zA-Z]+)$/';
         preg_match($pattern, $action, $matches);
