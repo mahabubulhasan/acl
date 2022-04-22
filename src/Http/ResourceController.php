@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 use Uzzal\Acl\Services\ResourceService;
 use Uzzal\Acl\Models\Resource;
 
-class ResourceController extends Controller {
+class ResourceController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
         $rows = new Resource;
-        if($q = request('q')){
+        if ($q = request('q')) {
             $rows = $rows->where('name', 'LIKE', "%{$q}%")
-                        ->orWhere('controller', 'LIKE', "%{$q}%")
-                        ->orWhere('action', 'LIKE', "%{$q}%");
+                ->orWhere('controller', 'LIKE', "%{$q}%")
+                ->orWhere('action', 'LIKE', "%{$q}%");
         }
 
         return view('acl::resource.index', [
@@ -22,11 +24,8 @@ class ResourceController extends Controller {
         ]);
     }
 
-    public function create() {
-        return view('acl::resource.create');
-    }
-
-    public function store(ResourceService $resourceService, Request $request) {
+    public function store(ResourceService $resourceService, Request $request)
+    {
         $validator = $resourceService->validator($request->all());
 
         if ($validator->fails()) {
@@ -38,15 +37,22 @@ class ResourceController extends Controller {
         return redirect('/resource')->with('msg', 'Resource created successfully!');
     }
 
-    public function edit($id) {
+    public function create()
+    {
+        return view('acl::resource.create');
+    }
+
+    public function edit($id)
+    {
         return view('acl::resource.edit', [
-            'id' => $id,
-            'resource' => Resource::find($id)
-                ]
+                'id' => $id,
+                'resource' => Resource::find($id)
+            ]
         );
     }
 
-    public function update($id, ResourceService $resourceService, Request $request) {
+    public function update($id, ResourceService $resourceService, Request $request)
+    {
         $validator = $resourceService->validator($request->all(), $id);
 
         if ($validator->fails()) {
@@ -57,7 +63,8 @@ class ResourceController extends Controller {
         return redirect('/resource')->with('msg', 'Resource updated successfully!');
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         if (Resource::destroy($id)) {
             return redirect('/resource')->with('msg', 'Resource deleted successfully!');
         }

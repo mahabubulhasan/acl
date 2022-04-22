@@ -14,7 +14,7 @@ class AclServiceProvider extends ServiceProvider
             return \Uzzal\Acl\Services\PermissionCheckService::hasAccess($resource);
         });
 
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
     public function register()

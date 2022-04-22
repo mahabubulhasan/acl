@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
  * @package Uzzal\Acl\Models
  * @author Mahabubul Hasan Uzzal <codehasan@gmail.com>
  */
-class Permission extends Model {
+class Permission extends Model
+{
 
     public $timestamps = false;
 
@@ -20,23 +21,28 @@ class Permission extends Model {
 
     protected $fillable = ['role_id', 'resource_id'];
 
-    public static function bulkInsert($data) {
+    public static function bulkInsert($data)
+    {
         DB::table('permissions')->insert($data);
     }
 
-    public function scopeRoles($query, $roles){
+    public function scopeRoles($query, $roles)
+    {
         return $query->whereIn('role_id', $roles);
     }
 
-    public function scopeRole($query, $role_id) {
+    public function scopeRole($query, $role_id)
+    {
         return $query->whereRoleId($role_id);
     }
-            
-    public function scopeResource($query, $resource_id){
+
+    public function scopeResource($query, $resource_id)
+    {
         return $query->whereResourceId($resource_id);
     }
-    
-    public function resourceItem(){
+
+    public function resourceItem()
+    {
         return $this->hasOne(Resource::class, 'resource_id', 'resource_id');
     }
 }

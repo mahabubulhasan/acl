@@ -3,14 +3,16 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResourcesTable extends Migration {
+class CreateResourcesTable extends Migration
+{
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('resources', function (Blueprint $table) {
             $table->string('resource_id', 45);
             $table->string('name', 60);
@@ -26,7 +28,8 @@ class CreateResourcesTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::drop('resources');
     }
 

@@ -23,7 +23,7 @@ class AnnotationService
      */
     public function __construct($action)
     {
-        if(strpos($action, '@')){
+        if (strpos($action, '@')) {
             list($this->_class, $this->_method) = explode('@', $action);
         }
     }
@@ -32,24 +32,18 @@ class AnnotationService
      * reads the @resource('human readable name of the resource')
      * @return string
      */
-    public function getResource(){
+    public function getResource()
+    {
         return $this->_parse(self::PATTERN_RESOURCE);
-    }
-
-    /**
-     * reads the allowed role to the specific action @allowRole('Default, Admin')
-     * @return string
-     */
-    public function getAllowRole(){
-        return $this->_parse(self::PATTERN_ALLOW_ROLE);
     }
 
     /**
      * @param $pattern
      * @return string
      */
-    private function _parse($pattern){
-        if(!$this->_class){
+    private function _parse($pattern)
+    {
+        if (!$this->_class) {
             return '';
         }
         try {
@@ -59,5 +53,14 @@ class AnnotationService
         } catch (\ReflectionException $e) {
             return '';
         }
+    }
+
+    /**
+     * reads the allowed role to the specific action @allowRole('Default, Admin')
+     * @return string
+     */
+    public function getAllowRole()
+    {
+        return $this->_parse(self::PATTERN_ALLOW_ROLE);
     }
 }
