@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('acl::layouts.acl')
+
+@section('header', 'Role List')
 
 @section('content')
     <div class="container">

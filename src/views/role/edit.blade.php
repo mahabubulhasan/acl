@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('acl::layouts.acl')
 
 @section('content')
     <div class="container">
