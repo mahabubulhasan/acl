@@ -14,7 +14,7 @@ class AclServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Blade::if('let', function ($resource) {
+        Blade::if('allowed', function ($resource) {
             return \Uzzal\Acl\Services\PermissionCheckService::hasAccess($resource);
         });
 
