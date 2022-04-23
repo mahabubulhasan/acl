@@ -17,7 +17,9 @@ class Permission extends Model
 
     protected $table = 'permissions';
 
-    protected $primaryKey = 'permission_id';
+    protected $primaryKey = null;
+
+    public $incrementing = false;
 
     protected $fillable = ['role_id', 'resource_id'];
 
