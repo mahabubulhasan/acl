@@ -16,8 +16,8 @@ class AnnotationServiceTest extends TestCase
     public function testAnnotations()
     {
         $obj = new AnnotationService('Uzzal\Acl\Tests\AnnotationDummy@dummyMethod');
-        $this->assertEquals('Default, Admin', $obj->getAllowRole());
-        $this->assertEquals('This is a dummy resource', $obj->getResource());
+        $this->assertEquals('Default, Admin', $obj->getRoleString());
+        $this->assertEquals('This is a dummy resource', $obj->getResourceName());
     }
 }
 

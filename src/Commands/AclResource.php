@@ -4,11 +4,13 @@ namespace Uzzal\Acl\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\Role;
 use Uzzal\Acl\Services\AnnotationService;
+use Uzzal\Acl\Services\AttributableInterface;
 
 
 class AclResource extends Command
@@ -20,24 +22,28 @@ class AclResource extends Command
     protected $_skip = [];
     private $_controller_path_pattern = '';
     private $_roles = [];
+    private AttributableInterface $_attributeService;
 
-    public function __construct()
+    public function __construct(AttributableInterface $attributeService)
     {
         parent::__construct();
         $prefix = config('acl.controller_namespace_prefix', 'App\Http\Controllers');
         $this->_skip[] = $prefix . '\Auth';
         $this->_controller_path_pattern = str_replace('\\', '\\\\\\', $prefix);
+        $this->_attributeService = $attributeService;
     }
 
     public function handle()
     {
-        $l = Route::getRoutes();
+        $routes = Route::getRoutes();
         $this->_roles = $this->_getRoles();
 
-        $bar = $this->output->createProgressBar(count($l));
+        $bar = $this->output->createProgressBar(count($routes));
         $bar->setFormat('%percent:3s%% %message%');
-        foreach ($l->getIterator() as $v) {
+
+        foreach ($routes->getIterator() as $v) {
             $action = $v->getActionName();
+
             if ($action == 'Closure' || $this->_skipAction($action)) {
                 $bar->advance();
                 continue;
@@ -69,9 +75,10 @@ class AclResource extends Command
     {
         $resource_id = sha1($action, false);
         $controller = $this->_getControllerName($action);
-        $annotation = new AnnotationService($action);
-        $name = $annotation->getResource();
-        $allowRoleId = $this->_getAllowRoleId($annotation->getAllowRole());
+        $this->_attributeService->setAction($action);
+
+        $name = $this->_attributeService->getResourceName();
+        $allowRoleId = $this->_getAllowRoleId($this->_attributeService->getRoleString());
 
         if (!$name) {
             $name = $controller . ' ' . $method . '::' . $this->_getActionName($action);
