@@ -39,7 +39,7 @@ class AclResource extends Command
         $this->_roles = $this->_getRoles();
 
         $bar = $this->output->createProgressBar(count($routes));
-        $bar->setFormat('%percent:3s%% %message%');
+        $bar->setFormat('%percent:3s%% %message%' . PHP_EOL);
 
         foreach ($routes->getIterator() as $v) {
             $action = $v->getActionName();

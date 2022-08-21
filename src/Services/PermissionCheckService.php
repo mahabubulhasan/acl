@@ -4,6 +4,7 @@ namespace Uzzal\Acl\Services;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Models\UserRole;
 
@@ -15,6 +16,9 @@ class PermissionCheckService
     private static $_resources = [];
     private static $_permission_rows = [];
     private static $_resource_group = [];
+
+    private const ROUTE_NAME = 1;
+    private const ACTION_NAME = 2;
 
     public static function canAccess($action, $user)
     {
@@ -30,13 +34,15 @@ class PermissionCheckService
         return self::$_roles;
     }
 
-    public static function hasAccess($resource)
+    public static function hasAccess(mixed $resource)
     {
-        if (count($resource) != 2) {
-            return false;
+        if (is_array($resource) && count($resource)==2) {
+            list($controller, $action) = $resource;
+            return in_array($controller . '@' . $action, self::getResources());
         }
-        list($controller, $action) = $resource;
-        return in_array($controller . '@' . $action, self::getResources());
+
+        $action = Route::getRoutes()->getByName($resource)?->action['uses'];
+        return $action && in_array($action, self::getResources());
     }
 
     public static function getResources()

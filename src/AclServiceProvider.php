@@ -29,6 +29,10 @@ class AclServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/views' => resource_path('views/vendor/acl'),
         ], 'acl-views');
+
+        $this->publishes([
+            __DIR__ . '/acl.php' => config_path('acl.php'),
+        ], 'acl-config');
     }
 
     public function register()

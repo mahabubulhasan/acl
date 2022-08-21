@@ -1,7 +1,7 @@
 <?php
 
-if (!function_exists('has')) {
-    function allowed(array $resource)
+if (!function_exists('allowed')) {
+    function allowed(mixed $resource)
     {
         return \Uzzal\Acl\Services\PermissionCheckService::hasAccess($resource);
     }
