@@ -1,12 +1,15 @@
 <?php
+
 namespace Uzzal\Acl;
 
-trait ViewCompiler {
+trait ViewCompiler
+{
 
     /**
      * @author uzzal
      */
-    private static function _nullsafeParser($str, $pre = '') {
+    private static function _nullsafeParser($str, $pre = '')
+    {
         $head = substr($str, 0, strpos($str, '->'));
         $tail = substr($str, strlen($head) + 2);
 

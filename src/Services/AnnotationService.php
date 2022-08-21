@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mahabubul Hasan
- * Date: 3/11/2018
- * Time: 1:47 PM
- */
-
 namespace Uzzal\Acl\Services;
 
 
-class AnnotationService
+use Illuminate\Support\Facades\Log;
+
+class AnnotationService implements AttributableInterface
 {
     const PATTERN_RESOURCE = '/@resource\([\'"]?(.+)[\'"]\)/i';
     const PATTERN_ALLOW_ROLE = '/@allowRole\([\'"]?(.+)[\'"]\)/i';
@@ -17,13 +12,11 @@ class AnnotationService
     private $_class;
     private $_method;
 
-    /**
-     * AnnotationService constructor.
-     * @param $action string
-     */
-    public function __construct($action)
+    public function setAction($action)
     {
-        if(strpos($action, '@')){
+        Log::info('setAction: ');
+        Log::info($action);
+        if (strpos($action, '@')) {
             list($this->_class, $this->_method) = explode('@', $action);
         }
     }
@@ -32,24 +25,17 @@ class AnnotationService
      * reads the @resource('human readable name of the resource')
      * @return string
      */
-    public function getResource(){
-        return $this->_parse(self::PATTERN_RESOURCE);
+    public function getResourceName()
+    {
+        $tmp = $this->_parse(self::PATTERN_RESOURCE);
+        Log::info('getResourceName: ');
+        Log::info($tmp);
+        return $tmp;
     }
 
-    /**
-     * reads the allowed role to the specific action @allowRole('Default, Admin')
-     * @return string
-     */
-    public function getAllowRole(){
-        return $this->_parse(self::PATTERN_ALLOW_ROLE);
-    }
-
-    /**
-     * @param $pattern
-     * @return string
-     */
-    private function _parse($pattern){
-        if(!$this->_class){
+    private function _parse($pattern)
+    {
+        if (!$this->_class) {
             return '';
         }
         try {
@@ -59,5 +45,17 @@ class AnnotationService
         } catch (\ReflectionException $e) {
             return '';
         }
+    }
+
+    /**
+     * reads the allowed role to the specific action @allowRole('Default, Admin')
+     * @return string
+     */
+    public function getRoleString()
+    {
+        $tmp = $this->_parse(self::PATTERN_ALLOW_ROLE);
+        Log::info('getRoleString: ');
+        Log::info($tmp);
+        return $tmp;
     }
 }

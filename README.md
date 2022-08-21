@@ -11,7 +11,7 @@ composer require uzzal/acl
 ```
 
 ### configure
-In your laravel config/app.php under providers add 
+In your laravel config/app.php under providers add
 
 ```php
 Uzzal\Acl\AclServiceProvider::class
@@ -20,7 +20,7 @@ Uzzal\Acl\AclServiceProvider::class
 ```
 artisan vendor:publish
 ```
-This command will publish view files inside `views/vendor/acl`, 
+This command will publish view files inside `views/vendor/acl`,
 seed files inside the `databases/seed` and a config file `config/acl.php`.
 
 ### seed
@@ -33,10 +33,10 @@ $this->call(ResourceTableSeeder::class);
 $this->call(PermissionTableSeeder::class);
 $this->call(UserRoleTableSeeder::class);
 ```
-NOTE: If you see any kind of class not found type error try running `composer dump-autoload` 
+NOTE: If you see any kind of class not found type error try running `composer dump-autoload`
 
 ### artisan
-This library comes with an artisan command `acl:resource` to automatically create all the resources (_controller@action_) available in your project under `app/Http/Controllers` directory. To activate this command you need to add these following lines to your `app/Console/Kernel.php` file. 
+This library comes with an artisan command `acl:resource` to automatically create all the resources (_controller@action_) available in your project under `app/Http/Controllers` directory. To activate this command you need to add these following lines to your `app/Console/Kernel.php` file.
 ```php
 protected $commands = [
     Uzzal\Acl\Commands\AclResource::class
@@ -55,12 +55,12 @@ public function index()
     return view('home');
 }
 ```
-NOTE: by default **developer** role has the highest permission level, and it doesn't need to be mentioned in the 
-`#Authorize` attribute. If you remove the `#Authorize` attribute it won't delete the permissions from the 
+NOTE: by default **developer** role has the highest permission level, and it doesn't need to be mentioned in the
+`#Authorize` attribute. If you remove the `#Authorize` attribute it won't delete the permissions from the
 database, but if you change the role list in the annotation then it will update the databased accordingly.
 
 ### middleware
-This ACL library comes with two middleware as shown below. `AuthenticateWithAcl` is the middleware you need. The other `ResourceMaker` middle ware is just a helper to create resource dynamically if it doesn't exists in the first place and assign permission for it to the `developer` role.  
+This ACL library comes with two middleware as shown below. `AuthenticateWithAcl` is the middleware you need. The other `ResourceMaker` middle ware is just a helper to create resource dynamically if it doesn't exists in the first place and assign permission for it to the `developer` role.
 
 In your `kernal.php` file add this lines
 ```php

@@ -1,5 +1,7 @@
 <?php
 
+namespace Uzzal\Acl\Seeds;
+
 use Illuminate\Database\Seeder;
 use Uzzal\Acl\Models\Permission;
 

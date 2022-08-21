@@ -13,19 +13,22 @@ use Uzzal\Acl\Services\AnnotationService;
 
 class AnnotationServiceTest extends TestCase
 {
-    public function testAnnotations(){
+    public function testAnnotations()
+    {
         $obj = new AnnotationService('Uzzal\Acl\Tests\AnnotationDummy@dummyMethod');
-        $this->assertEquals('Default, Admin', $obj->getAllowRole());
-        $this->assertEquals('This is a dummy resource', $obj->getResource());
+        $this->assertEquals('Default, Admin', $obj->getRoleString());
+        $this->assertEquals('This is a dummy resource', $obj->getResourceName());
     }
 }
 
-class AnnotationDummy{
+class AnnotationDummy
+{
     /**
      * @resource('This is a dummy resource')
      * @allowRole('Default, Admin')
      */
-    public function dummyMethod(){
-       return true;
+    public function dummyMethod()
+    {
+        return true;
     }
 }

@@ -1,47 +1,44 @@
 <?php
+
 namespace Uzzal\Acl;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Blade;
+use Uzzal\Acl\Commands\AclResource;
+use Uzzal\Acl\Services\AttributableInterface;
+use Uzzal\Acl\Services\AttributeService;
 
-class AclServiceProvider extends ServiceProvider {
-    use ViewCompiler;
 
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot() {                        
-        if(!method_exists(Blade::getFacadeRoot(), 'nullsafe')){
-            Blade::directive('nullsafe', function($expression) {
-                return self::_nullsafeParser($expression);
-            });
-        }
-        
+class AclServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        Blade::if('allowed', function ($resource) {
+            return \Uzzal\Acl\Services\PermissionCheckService::hasAccess($resource);
+        });
+
         $this->loadViewsFrom(__DIR__ . '/views', 'acl');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
-        $this->publishes([
-            __DIR__ . '/database/seeds/' => database_path('seeds')
-                ], 'seeds');
-        
+        if($this->app->runningInConsole()){
+            $this->commands([
+                AclResource::class
+            ]);
+        }
+
         $this->publishes([
             __DIR__ . '/views' => resource_path('views/vendor/acl'),
-        ], 'views');
+        ], 'acl-views');
 
         $this->publishes([
             __DIR__ . '/acl.php' => config_path('acl.php'),
-        ], 'acl config');
+        ], 'acl-config');
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register() {
-        include_once __DIR__ . '/routes.php';        
+    public function register()
+    {
+        $this->app->singleton(AttributableInterface::class, AttributeService::class);
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
     }
 
 }
