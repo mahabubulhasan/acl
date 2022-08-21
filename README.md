@@ -86,11 +86,11 @@ There are several ways to check for access
 
 By route name here `home.index` is the name of the route.
 ```php
-@if (Auth::user()->allowed('home.index')) 
-    <h4>Will be visible if the user has permission</h4>
-@endif
+if (Auth::user()->allowed('home.index')) {
+    echo "will allow here if the user has access";
+}
 
-// alternatively
+// alternatively in blade template
 
 @allowed('home.index')
 <h4>Will be visible if the user has permission</h4>
@@ -98,11 +98,11 @@ By route name here `home.index` is the name of the route.
 ```
 By controller's action name
 ```php
-@if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index']))
-    <h4>Will be visible if the user has permission</h4>
-@endif
+if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index'])) {
+    echo "will allow here if the user has access";
+}
 
-// alternatively
+// alternatively in blade template
 
 @allowed([\App\Http\Controllers\HomeController::class, 'index'])
     <h4>Will be visible if the user has permission</h4>
