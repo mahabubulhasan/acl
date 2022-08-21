@@ -26,7 +26,7 @@ class ResourceMaker
         $action = $this->route->getActionName();
         $resource_id = sha1($action, false);
         $controller = $this->_getControllerName($action);
-        $name = $request->getMethod() . '::' . $this->_getActionName($action);
+        $name = $controller . ' ' . $request->getMethod() . '::' . $this->_getActionName($action);
 
         if ($controller) {
             $resource = Resource::find($resource_id);
