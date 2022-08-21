@@ -89,20 +89,26 @@ By route name here `home.index` is the name of the route.
 @if (Auth::user()->allowed('home.index')) 
     <h4>Will be visible if the user has permission</h4>
 @endif
+
+// alternatively
+
+@allowed('home.index')
+<h4>Will be visible if the user has permission</h4>
+@endallowed
 ```
 By controller's action name
 ```php
 @if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index']))
     <h4>Will be visible if the user has permission</h4>
 @endif
-```
 
-### blade helpers for access check
+// alternatively
 
 @allowed([\App\Http\Controllers\HomeController::class, 'index'])
     <h4>Will be visible if the user has permission</h4>
 @endallowed
+```
 
-@allowed('home.index')
-<h4>Will be visible if the user has permission</h4>
-@endallowed
+
+
+
