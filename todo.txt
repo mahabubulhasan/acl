@@ -1,0 +1,3 @@
+- need to remove the seeds file from src/database directory
+- need to remove the helpers.php file's -> row_serial_start() function
+- need to update the view file's style with latest laravel's css framework
