@@ -1,10 +1,8 @@
 # acl
 
+> Upgraded to support Laravel 8 and latest versions
+
 Dynamically configurable access control for Laravel. One user can have multiple roles.
-
-__NOTE:__ If you are using Bootstrap 3 in your existing project, in that case please 
-use `v1.1.x` series of this library
-
 
 ### install
 
@@ -46,21 +44,19 @@ protected $commands = [
 
 ```
 
-### @annotation
+### #Attribute
 
-Acl library now has two annotation support `@resource`, and `@allowRole` to be used with controller action
+Acl library now has two attribute support `#Resource`, and `#Authorize` to be used with controller action
 ```php
-/**
-* @resource('able to see home')
-* @allowRole('Default, Admin')
-*/
+#[Authorize('Admin, Default')]
+#[Resource('able to see home')]
 public function index()
 {
     return view('home');
 }
 ```
 NOTE: by default **developer** role has the highest permission level, and it doesn't need to be mentioned in the 
-`@allowRole` annotation. If you remove the `@allowRole` annotation it won't delete the permissions from the 
+`#Authorize` attribute. If you remove the `#Authorize` attribute it won't delete the permissions from the 
 database, but if you change the role list in the annotation then it will update the databased accordingly.
 
 ### middleware
@@ -85,25 +81,28 @@ To access role visit `YOUR-HOST/role` url
 
 To access resource UI visit `YOUR-HOST/resource` url
 
-### helpers
+### access check
+There are several ways to check for access
 
-`has_access` checks for if a role has access to a specific controller action.
+By route name here `home.index` is the name of the route.
 ```php
-@if(has_access('User\UserController@getIndex'))
-OR
-@if(has_access('UserController@getIndex'))
+@if (Auth::user()->allowed('home.index')) 
+    <h4>Will be visible if the user has permission</h4>
+@endif
 ```
-
-`has_group_access` checks for if a role has access to a specific controller   
-```php 
-@if(has_group_access(['User-User','User-Role','User-Resource']))
-OR
-@if(has_group_access('User-User'))
-```
-
-`@nullsafe()` checks for whether any of the object property is null or not in a fluent interface ($obj->prop->value), if the chain is broken it will simply return an empty string and prevent showing up `call to a member function of a non-object` exception.
-
-Blade example: 
+By controller's action name
 ```php
-{{ @nullsafe($obj->prop->value) }}
+@if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index']))
+    <h4>Will be visible if the user has permission</h4>
+@endif
 ```
+
+### blade helpers for access check
+
+@allowed([\App\Http\Controllers\HomeController::class, 'index'])
+    <h4>Will be visible if the user has permission</h4>
+@endallowed
+
+@allowed('home.index')
+<h4>Will be visible if the user has permission</h4>
+@endallowed
