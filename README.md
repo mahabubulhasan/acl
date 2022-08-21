@@ -105,7 +105,7 @@ if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index']
 // alternatively in blade template
 
 @allowed([\App\Http\Controllers\HomeController::class, 'index'])
-    <h4>Will be visible if the user has permission</h4>
+<h4>Will be visible if the user has permission</h4>
 @endallowed
 ```
 
