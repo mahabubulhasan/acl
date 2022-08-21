@@ -5,8 +5,8 @@ namespace Uzzal\Acl\Middleware;
 use Closure;
 use Illuminate\Database\QueryException;
 use Illuminate\Routing\Route;
-use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\Permission;
+use Uzzal\Acl\Models\Resource;
 
 class ResourceMaker
 {
@@ -23,18 +23,26 @@ class ResourceMaker
 
     public function handle($request, Closure $next)
     {
+        if(config('app.env')=='production'){
+            return $next($request);
+        }
+
         $action = $this->route->getActionName();
+        if($action == 'Closure'){
+            return $next($request);
+        }
+
         $resource_id = sha1($action, false);
         $controller = $this->_getControllerName($action);
         $name = $controller . ' ' . $request->getMethod() . '::' . $this->_getActionName($action);
 
         if ($controller) {
             $resource = Resource::find($resource_id);
-            if (!$resource && $name != 'Method') {
+            if (!$resource) {
 
                 Resource::create([
                     'resource_id' => $resource_id,
-                    'name' => $controller . ' ' . $name,
+                    'name' => $name,
                     'controller' => $controller,
                     'action' => $action
                 ]);
@@ -48,7 +56,7 @@ class ResourceMaker
 
     private function _getControllerName($action)
     {
-        $pattern = '/' . $this->_controller_path_pattern . '\\\([a-zA-Z\\\]+)Controller\@/';
+        $pattern = '/' . $this->_controller_path_pattern . '\\\([a-zA-Z0-9_\\\]+)Controller\@/';
         preg_match($pattern, $action, $matches);
 
         if (count($matches) == 2) {
@@ -60,7 +68,7 @@ class ResourceMaker
 
     private function _getActionName($action)
     {
-        $pattern = '/([a-zA-Z]+)$/';
+        $pattern = '/([a-zA-Z0-9_]+)$/';
         preg_match($pattern, $action, $matches);
 
         if (count($matches) == 2) {

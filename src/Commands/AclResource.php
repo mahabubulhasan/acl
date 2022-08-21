@@ -4,12 +4,10 @@ namespace Uzzal\Acl\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\Role;
-use Uzzal\Acl\Services\AnnotationService;
 use Uzzal\Acl\Services\AttributableInterface;
 
 
@@ -86,7 +84,7 @@ class AclResource extends Command
 
         if ($controller) {
             $resource = Resource::find($resource_id);
-            if (!$resource && $name != 'Method') {
+            if (!$resource) {
                 Resource::create([
                     'resource_id' => $resource_id,
                     'name' => $name,
@@ -116,7 +114,7 @@ class AclResource extends Command
 
     private function _getControllerName($action)
     {
-        $patterns[] = '/' . $this->_controller_path_pattern . '\\\([a-zA-Z\\\]+)Controller\@/';
+        $patterns[] = '/' . $this->_controller_path_pattern . '\\\([a-zA-Z0-9_\\\]+)Controller\@/';
         $patterns[] = '/Uzzal\\\Acl\\\Http\\\([a-zA-Z\\\]+)Controller\@/';
 
         foreach ($patterns as $p) {
@@ -149,7 +147,7 @@ class AclResource extends Command
 
     private function _getActionName($action)
     {
-        $pattern = '/([a-zA-Z]+)$/';
+        $pattern = '/([a-zA-Z0-9_]+)$/';
         preg_match($pattern, $action, $matches);
 
         if (count($matches) == 2) {
@@ -204,10 +202,5 @@ class AclResource extends Command
                 return $v == 1;
             })
             ->toArray();
-    }
-
-    public function controllerName($action)
-    {
-        return $this->_getControllerName($action);
     }
 }
