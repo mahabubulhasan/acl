@@ -11,7 +11,7 @@ composer require uzzal/acl
 ```
 
 ### configure
-In your laravel config/app.php under providers add
+In your laravel `config/app.php` under providers add
 
 ```php
 Uzzal\Acl\AclServiceProvider::class
@@ -42,6 +42,19 @@ protected $commands = [
     Uzzal\Acl\Commands\AclResource::class
 ];
 
+```
+
+### modify the User model
+In your `User` model add the following trait
+
+```php
+use Uzzal\Acl\Traits\AccessControlled;
+
+class User extends Authenticatable
+{    
+    use AccessControlled;
+    ...
+}
 ```
 
 ### #Attribute
