@@ -8,4 +8,9 @@ trait AccessControlled
     {
         return \Uzzal\Acl\Services\PermissionCheckService::hasAccess($resource);
     }
+
+    public function allowedAny(mixed $group)
+    {
+        return \Uzzal\Acl\Services\PermissionCheckService::hasGroupAccess($group);
+    }
 }

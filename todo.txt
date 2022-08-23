@@ -1,3 +1,13 @@
 - need to remove the seeds file from src/database directory
 - need to remove the helpers.php file's -> row_serial_start() function
 - need to update the view file's style with latest laravel's css framework
+
+- all depended tables name should be configurable
+- in resources table controller and action column need to be allowed long names
+	-- name 90
+	-- controller 60
+	-- action 150
+
+
+- roles, resources routes should be configurable
+- activate has_group_access

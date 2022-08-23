@@ -122,6 +122,26 @@ if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index']
 @endallowed
 ```
 
+### Checking for controller level access
+Suppose you have two controllers named `HomeController` and `ProfileController` now you want to check if the user has any access to both of the controller then use the following code
+```php
+if (Auth::user()->allowedAny(['Home','Profile'])) {
+    echo "Will be visible if the user has permission for any action of Home and Profile controller";
+}
+
+// alternatively in blade template
+
+@allowedAny(['Home','Profile'])
+<h4>Will be visible if the user has permission for any action of Home and Profile controller</h4>
+@endallowedAny
+
+// for single controller it can be written like this
+
+@allowedAny('Home')
+<h4>Will be visible if the user has permission for any action of Home Controller</h4>
+@endallowedAny
+```
+
 
 
 

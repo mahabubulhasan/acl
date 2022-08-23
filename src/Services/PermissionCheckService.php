@@ -63,13 +63,14 @@ class PermissionCheckService
                 self::$_resources[] = $r->resourceItem->action;
             }
         }
-
+        // all the controller's name as array based on role
         self::$_resource_group = array_unique(self::$_resource_group);
     }
 
     private static function _getPermissionRows()
     {
         if (count(self::$_permission_rows) == 0 && Auth::user()) {
+            // get all the resource_id based on roles
             $roles = self::_getUserRoles(Auth::id());
             self::$_permission_rows = Permission::with('resourceItem')->roles($roles)->get();
         }

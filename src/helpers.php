@@ -7,6 +7,13 @@ if (!function_exists('allowed')) {
     }
 }
 
+if (!function_exists('allowedAny')) {
+    function allowedAny(mixed $group)
+    {
+        return \Uzzal\Acl\Services\PermissionCheckService::hasGroupAccess($group);
+    }
+}
+
 if (! function_exists('row_serial_start')) {
     /**
      *
