@@ -14,6 +14,13 @@ if (!function_exists('allowedAny')) {
     }
 }
 
+if (!function_exists('hasRole')) {
+    function hasRole(mixed $roles)
+    {
+        return \Uzzal\Acl\Services\PermissionCheckService::hasRole($roles);
+    }
+}
+
 if (! function_exists('row_serial_start')) {
     /**
      *

@@ -1,29 +1,29 @@
-# acl
+# ACL
 
 > Upgraded to support Laravel 8 and latest versions
 
 Dynamically configurable access control for Laravel. One user can have multiple roles.
 
-### install
+### Install
 
 ```
 composer require uzzal/acl
 ```
 
-### configure
+### Configuration
 In your laravel `config/app.php` under providers add
 
 ```php
 Uzzal\Acl\AclServiceProvider::class
 ```
-### publish
+### Publish
 ```
 artisan vendor:publish
 ```
 This command will publish view files inside `views/vendor/acl`,
 seed files inside the `databases/seed` and a config file `config/acl.php`.
 
-### seed
+### Database seed
 At your `DatabaseSeeder.php` under `database/seeds` add the following lines
 
 ```php
@@ -35,7 +35,7 @@ $this->call(UserRoleTableSeeder::class);
 ```
 NOTE: If you see any kind of class not found type error try running `composer dump-autoload`
 
-### artisan
+### Artisan command
 This library comes with an artisan command `acl:resource` to automatically create all the resources (_controller@action_) available in your project under `app/Http/Controllers` directory. To activate this command you need to add these following lines to your `app/Console/Kernel.php` file.
 ```php
 protected $commands = [
@@ -44,7 +44,7 @@ protected $commands = [
 
 ```
 
-### modify the User model
+### Modify the User model
 In your `User` model add the following trait
 
 ```php
@@ -57,7 +57,7 @@ class User extends Authenticatable
 }
 ```
 
-### #Attribute
+### #[Attribute]
 
 Acl library now has two attribute support `#Resource`, and `#Authorize` to be used with controller action
 ```php
@@ -72,7 +72,7 @@ NOTE: by default **developer** role has the highest permission level, and it doe
 `#Authorize` attribute. If you remove the `#Authorize` attribute it won't delete the permissions from the
 database, but if you change the role list in the annotation then it will update the databased accordingly.
 
-### middleware
+### Middleware
 This ACL library comes with two middleware as shown below. `AuthenticateWithAcl` is the middleware you need. The other `ResourceMaker` middle ware is just a helper to create resource dynamically if it doesn't exists in the first place and assign permission for it to the `developer` role.
 
 In your `kernal.php` file add this lines
@@ -94,12 +94,12 @@ To access role visit `YOUR-HOST/role` url
 
 To access resource UI visit `YOUR-HOST/resource` url
 
-### access check
+### Access check
 There are several ways to check for access
 
 By route name here `home.index` is the name of the route.
 ```php
-if (Auth::user()->allowed('home.index')) {
+if (allowed('home.index')) {
     echo "will allow here if the user has access";
 }
 
@@ -111,7 +111,7 @@ if (Auth::user()->allowed('home.index')) {
 ```
 By controller's action name
 ```php
-if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index'])) {
+if (allowed([\App\Http\Controllers\HomeController::class, 'index'])) {
     echo "will allow here if the user has access";
 }
 
@@ -125,7 +125,7 @@ if (Auth::user()->allowed([\App\Http\Controllers\HomeController::class, 'index']
 ### Checking for controller level access
 Suppose you have two controllers named `HomeController` and `ProfileController` now you want to check if the user has any access to both of the controller then use the following code
 ```php
-if (Auth::user()->allowedAny(['Home','Profile'])) {
+if (allowedAny(['Home','Profile'])) {
     echo "Will be visible if the user has permission for any action of Home and Profile controller";
 }
 
@@ -140,6 +140,25 @@ if (Auth::user()->allowedAny(['Home','Profile'])) {
 @allowedAny('Home')
 <h4>Will be visible if the user has permission for any action of Home Controller</h4>
 @endallowedAny
+```
+
+### Checking access by Role name
+```php
+if (hasRole(['Admin','Editor'])) {
+    echo "Will be visible if the user has Admin or Editor or both roles";
+}
+
+// alternatively in blade template
+
+@hasRole(['Admin','Editor'])
+<h4>Will be visible if the user has Admin or Editor or both roles</h4>
+@endhasRole
+
+// for single Role it can be written like this
+
+@hasRole('Admin')
+<h4>Will be visible if the user has Admin roles</h4>
+@endhasRole
 ```
 
 

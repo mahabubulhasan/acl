@@ -4,8 +4,10 @@ namespace Uzzal\Acl\Services;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Uzzal\Acl\Models\Permission;
+use Uzzal\Acl\Models\Role;
 use Uzzal\Acl\Models\UserRole;
 
 
@@ -13,6 +15,7 @@ class PermissionCheckService
 {
 
     private static $_roles = null;
+    private static $_role_names = null;
     private static $_resources = [];
     private static $_permission_rows = [];
     private static $_resource_group = [];
@@ -29,9 +32,18 @@ class PermissionCheckService
     private static function _getUserRoles($userId)
     {
         if (!self::$_roles) {
-            self::$_roles = Arr::flatten(UserRole::Where('user_id', $userId)->get(['role_id'])->toArray());
+            self::$_roles = UserRole::where('user_id', $userId)->pluck('role_id');
         }
         return self::$_roles;
+    }
+
+    private static function _getRoleNames($userId)
+    {
+        $roleIds = self::_getUserRoles($userId);
+        if (!self::$_role_names) {
+            self::$_role_names = Role::whereIn('role_id', $roleIds)->pluck('name')->toArray();
+        }
+        return self::$_role_names;
     }
 
     public static function hasAccess(mixed $resource)
@@ -103,4 +115,13 @@ class PermissionCheckService
         return self::$_resource_group;
     }
 
+    public static function hasRole(mixed $roles){
+        $myRoles = self::_getRoleNames(Auth::id());
+        if(is_array($roles)){
+            Log::debug(array_intersect($myRoles, $roles));
+            return count(array_intersect($myRoles, $roles)) > 0;
+        }else{
+            return in_array($roles, $myRoles);
+        }
+    }
 }

@@ -13,4 +13,9 @@ trait AccessControlled
     {
         return \Uzzal\Acl\Services\PermissionCheckService::hasGroupAccess($group);
     }
+
+    public function hasRole(mixed $roles){
+        return \Uzzal\Acl\Services\PermissionCheckService::hasRole($roles);
+    }
+
 }

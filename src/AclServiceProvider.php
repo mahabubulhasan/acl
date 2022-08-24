@@ -21,6 +21,10 @@ class AclServiceProvider extends ServiceProvider
             return \Uzzal\Acl\Services\PermissionCheckService::hasGroupAccess($group);
         });
 
+        Blade::if('hasRole', function ($group) {
+            return \Uzzal\Acl\Services\PermissionCheckService::hasRole($group);
+        });
+
         $this->loadViewsFrom(__DIR__ . '/views', 'acl');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
