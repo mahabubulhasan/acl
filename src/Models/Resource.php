@@ -12,7 +12,7 @@ class Resource extends Model
     protected $primaryKey = 'resource_id';
     protected $fillable = ['resource_id', 'name', 'controller', 'action'];
 
-    public function permissoin()
+    public function permissions()
     {
         return $this->hasMany(Permission::class, 'resource_id', 'resource_id');
     }
