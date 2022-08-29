@@ -35,6 +35,9 @@ class RoleController extends Controller
 
     public function edit($id, RoleService $service)
     {
+        if($id==1){
+            return redirect('/role')->with('msg', 'Developer Role is not editable!');
+        }
         return view('acl::role.edit', [
             'id' => $id,
             'role' => Role::find($id),

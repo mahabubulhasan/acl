@@ -69,7 +69,7 @@ class ResourceController extends Controller
             return redirect('/resource')->with('msg', 'Resource deleted successfully!');
         }
 
-        return redirect('/resource')->with('msg', 'Resource can\'t deleted successfully!');
+        return redirect('/resource')->with('msg', 'Sorry, unable to delete Resource!');
     }
 
 }

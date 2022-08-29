@@ -11,7 +11,8 @@ class RoleService
 
     public function validator(array $data, $id = 0)
     {
-        if ($id) {
+        // Developer role_id = 1
+        if ($id && $id != 1) {
             $action = 'required|max:30|unique:roles,name,' . $id . ',role_id';
         } else {
             $action = 'required|max:30|unique:roles';
