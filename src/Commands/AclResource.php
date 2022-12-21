@@ -9,6 +9,7 @@ use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\Role;
 use Uzzal\Acl\Services\AttributableInterface;
+use Uzzal\Acl\Services\AttributeService;
 
 
 class AclResource extends Command
@@ -46,7 +47,10 @@ class AclResource extends Command
                 $bar->advance();
                 continue;
             }
-            $this->_create($action, current($v->methods()), $bar);
+
+            if (AttributeService::hasAuthorizeAttribute($action)) {
+                $this->_create($action, current($v->methods()), $bar);
+            }
             $bar->advance();
         }
         $bar->finish();

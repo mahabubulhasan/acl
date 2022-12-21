@@ -66,4 +66,31 @@ class AttributeService implements AttributableInterface
 
         $this->_is_parsed = false;
     }
+
+    public static function hasAuthorizeAttribute($action){
+        $className = '';
+        $methodName = '';
+        if (strpos($action, '@')) {
+            list($className, $methodName) = explode('@', $action);
+        }
+
+        if($className=='' || $methodName==''){
+            return false;
+        }
+
+        $reflection = new ReflectionClass($className);
+
+        foreach ($reflection->getMethods() as $method) {
+            if($method->getName()==$methodName){
+                $attributes = $method->getAttributes(Authorize::class);
+                foreach ($attributes as $attr) {
+                    if ($attr->getName() == Authorize::class) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }
