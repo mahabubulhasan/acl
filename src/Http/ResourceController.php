@@ -4,12 +4,14 @@ namespace Uzzal\Acl\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Uzzal\Acl\Attributes\Authorize;
 use Uzzal\Acl\Services\ResourceService;
 use Uzzal\Acl\Models\Resource;
 
 class ResourceController extends Controller
 {
 
+    #[Authorize]
     public function index()
     {
         $rows = new Resource;
@@ -24,6 +26,7 @@ class ResourceController extends Controller
         ]);
     }
 
+    #[Authorize]
     public function store(ResourceService $resourceService, Request $request)
     {
         $validator = $resourceService->validator($request->all());
@@ -37,11 +40,13 @@ class ResourceController extends Controller
         return redirect('/resource')->with('msg', 'Resource created successfully!');
     }
 
+    #[Authorize]
     public function create()
     {
         return view('acl::resource.create');
     }
 
+    #[Authorize]
     public function edit($id)
     {
         return view('acl::resource.edit', [
@@ -51,6 +56,7 @@ class ResourceController extends Controller
         );
     }
 
+    #[Authorize]
     public function update($id, ResourceService $resourceService, Request $request)
     {
         $validator = $resourceService->validator($request->all(), $id);
@@ -63,6 +69,7 @@ class ResourceController extends Controller
         return redirect('/resource')->with('msg', 'Resource updated successfully!');
     }
 
+    #[Authorize]
     public function destroy($id)
     {
         if (Resource::destroy($id)) {

@@ -4,6 +4,7 @@ namespace Uzzal\Acl\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Uzzal\Acl\Attributes\Authorize;
 use Uzzal\Acl\Models\Resource;
 use Uzzal\Acl\Models\Role;
 use Uzzal\Acl\Models\Permission;
@@ -12,6 +13,8 @@ use Uzzal\Acl\Services\RoleService;
 class RoleController extends Controller
 {
 
+    #[Authorize]
+    #[\Uzzal\Acl\Attributes\Resource('Ability to see all roles')]
     public function index()
     {
         return view('acl::role.index', [
@@ -19,6 +22,8 @@ class RoleController extends Controller
         ]);
     }
 
+    #[Authorize]
+    #[\Uzzal\Acl\Attributes\Resource('Ability to save new role')]
     public function store(Request $request, RoleService $service)
     {
         $service->validator($request->all())->validate();
@@ -26,6 +31,8 @@ class RoleController extends Controller
         return redirect('/role')->with('msg', 'Role created successfully!');
     }
 
+    #[Authorize]
+    #[\Uzzal\Acl\Attributes\Resource('Ability to see new role form')]
     public function create(RoleService $service)
     {
         return view('acl::role.create', [
@@ -33,6 +40,8 @@ class RoleController extends Controller
         ]);
     }
 
+    #[Authorize]
+    #[\Uzzal\Acl\Attributes\Resource('Ability to see edit role form')]
     public function edit($id, RoleService $service)
     {
         if($id==1){
@@ -46,6 +55,8 @@ class RoleController extends Controller
         ]);
     }
 
+    #[Authorize]
+    #[\Uzzal\Acl\Attributes\Resource('Ability to save edited role')]
     public function update($id, RoleService $service, Request $request)
     {
         $service->validator($request->all(), $id)->validate();
@@ -53,6 +64,8 @@ class RoleController extends Controller
         return redirect('/role')->with('msg', 'Role updated successfully!');
     }
 
+    #[Authorize]
+    #[\Uzzal\Acl\Attributes\Resource('Ability to delete role')]
     public function destroy($id)
     {
         if ($id == 1) {
