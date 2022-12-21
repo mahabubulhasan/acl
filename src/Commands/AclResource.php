@@ -186,12 +186,19 @@ class AclResource extends Command
             return true;
         }
         $create = array_diff($roles, $existing_roles);
-        $delete = array_diff($existing_roles, $roles);
 
-        Permission::where('resource_id', $resource_id)->whereIn('role_id', $delete)->delete();
+        // $delete = array_diff($existing_roles, $roles);
+        // Permission::where('resource_id', $resource_id)->whereIn('role_id', $delete)->delete();
+
         foreach ($create as $c) {
-            Permission::create(['role_id' => $c, 'resource_id' => $resource_id]);
+            if(!$this->_isPermissionExists($c, $resource_id)){
+                Permission::create(['role_id' => $c, 'resource_id' => $resource_id]);
+            }
         }
+    }
+
+    private function _isPermissionExists($role_id, $resource_id){
+        return Permission::where('role_id', $role_id)->where('resource_id', $resource_id)->exists();
     }
 
     private function _getExistingRoleIds($resource_id)
