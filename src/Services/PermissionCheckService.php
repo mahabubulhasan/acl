@@ -2,9 +2,7 @@
 
 namespace Uzzal\Acl\Services;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Models\Role;
@@ -118,7 +116,6 @@ class PermissionCheckService
     public static function hasRole(mixed $roles){
         $myRoles = self::_getRoleNames(Auth::id());
         if(is_array($roles)){
-            Log::debug(array_intersect($myRoles, $roles));
             return count(array_intersect($myRoles, $roles)) > 0;
         }else{
             return in_array($roles, $myRoles);
