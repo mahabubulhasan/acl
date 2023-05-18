@@ -43,6 +43,8 @@ class RoleService
         if (array_key_exists('resource', $data)) {
             $this->_createPermission($role->role_id, $data['resource']);
         }
+
+        return $role->role_id;
     }
 
     private function _createPermission($id, $data)
