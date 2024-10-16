@@ -3,15 +3,12 @@
 namespace Uzzal\Acl\Tests;
 
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as WorkbenchTestCase;
 use Uzzal\Acl\AclServiceProvider;
 use function Orchestra\Testbench\workbench_path;
 
 abstract class TestCase extends WorkbenchTestCase
 {
-    use RefreshDatabase;
-
     protected $loadEnvironmentVariables = false;
 
     protected function defineEnvironment($app)
@@ -25,8 +22,6 @@ abstract class TestCase extends WorkbenchTestCase
                 'prefix' => '',
             ]);
         });
-
-
     }
 
     protected function defineDatabaseMigrations()
