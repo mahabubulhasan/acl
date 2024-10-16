@@ -21,10 +21,6 @@ class RoutePermissionTest extends TestCase
 
     protected function defineRoutes($router)
     {
-        $router->get('/hello', function () {
-            return 'Hello World';
-        })->name('hello')->middleware('auth');
-
         $router->resource('home', HomeController::class)->middleware(AuthenticateWithAcl::class);
     }
 
