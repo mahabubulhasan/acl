@@ -5,8 +5,8 @@ namespace Uzzal\Acl\Tests;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as WorkbenchTestCase;
-use Workbench\Database\Seeders\DatabaseSeeder;
-use function Orchestra\Testbench\artisan;
+use Uzzal\Acl\AclServiceProvider;
+use function Orchestra\Testbench\workbench_path;
 
 abstract class TestCase extends WorkbenchTestCase
 {
@@ -25,24 +25,19 @@ abstract class TestCase extends WorkbenchTestCase
                 'prefix' => '',
             ]);
         });
+
+
     }
 
     protected function defineDatabaseMigrations()
     {
-        $this->loadMigrationsFrom([
-            __DIR__ . '/../workbench/database/migrations',
-            __DIR__ . '/../src/database/migrations'
-        ]);
+        $this->loadMigrationsFrom(workbench_path('database/migrations'));
+    }
 
-        /*
-        artisan($this, 'migrate', ['--database' => 'testbench']);
-        $this->seed([
-            DatabaseSeeder::class
-        ]);*/
-
-        /*
-        $this->beforeApplicationDestroyed(
-            fn() => artisan($this, 'migrate:rollback', ['--database' => 'testbench'])
-        );*/
+    protected function getPackageProviders($app)
+    {
+        return [
+            AclServiceProvider::class
+        ];
     }
 }
