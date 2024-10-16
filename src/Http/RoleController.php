@@ -2,7 +2,7 @@
 
 namespace Uzzal\Acl\Http;
 
-use App\Http\Controllers\Controller;
+// use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Uzzal\Acl\Attributes\Authorize;
 use Uzzal\Acl\Models\Resource;
@@ -10,7 +10,7 @@ use Uzzal\Acl\Models\Role;
 use Uzzal\Acl\Models\Permission;
 use Uzzal\Acl\Services\RoleService;
 
-class RoleController extends Controller
+class RoleController // extends Controller
 {
 
     #[Authorize]

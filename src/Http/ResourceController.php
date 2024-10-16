@@ -2,13 +2,13 @@
 
 namespace Uzzal\Acl\Http;
 
-use App\Http\Controllers\Controller;
+// use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Uzzal\Acl\Attributes\Authorize;
 use Uzzal\Acl\Services\ResourceService;
 use Uzzal\Acl\Models\Resource;
 
-class ResourceController extends Controller
+class ResourceController // extends Controller
 {
 
     #[Authorize]

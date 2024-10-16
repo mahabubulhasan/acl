@@ -161,6 +161,13 @@ if (hasRole(['Admin','Editor'])) {
 @endhasRole
 ```
 
-
+## Contribution
+```bash
+composer update
+vendor/bin/testbench workbench:install
+vendor/bin/testbench workbench:create-sqlite-db
+vendor/bin/testbench migrate
+vendor/bin/testbench migrate db:seed --class=Workbench\Database\Seeders\DatabaseSeeder
+```
 
 
