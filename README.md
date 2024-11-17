@@ -29,7 +29,7 @@ seed files inside the `databases/seed` and a config file `config/acl.php`.
 At your `DatabaseSeeder.php` under `database/seeds` add the following lines
 
 ```php
-$this->call(UserTableSeeder::class); //optional        
+$this->call(UserTableSeeder::class); //optional
 $this->call(RoleTableSeeder::class);
 $this->call(ResourceTableSeeder::class);
 $this->call(PermissionTableSeeder::class);
@@ -53,7 +53,7 @@ In your `User` model add the following trait
 use Uzzal\Acl\Traits\AccessControlled;
 
 class User extends Authenticatable
-{    
+{
     use AccessControlled;
     ...
 }
@@ -63,13 +63,24 @@ class User extends Authenticatable
 
 Acl library now has two attribute support `#Resource`, and `#Authorize` to be used with controller action
 ```php
-#[Authorize('Admin, Default')]
+#[Authorize('Admin, Default')] // string
+#[Resource('able to see home')]
+public function index()
+{
+    return view('home');
+}
+
+// or alternatively
+
+#[Authorize('Admin', 'Default')] // array
 #[Resource('able to see home')]
 public function index()
 {
     return view('home');
 }
 ```
+> Role names are not case sensitive. But use Capitalized word for better readability.
+
 NOTE: by default **developer** role has the highest permission level, and it doesn't need to be mentioned in the
 `#Authorize` attribute. If you remove the `#Authorize` attribute it won't delete the permissions from the
 database, but if you change the role list in the annotation then it will update the databased accordingly.
@@ -79,13 +90,13 @@ This ACL library comes with two middleware as shown below. `AuthenticateWithAcl`
 
 In your `kernal.php` file add this lines
 ```php
-'auth.acl' => \Uzzal\Acl\Middleware\AuthenticateWithAcl::class,        
+'auth.acl' => \Uzzal\Acl\Middleware\AuthenticateWithAcl::class,
 'resource.maker' => \Uzzal\Acl\Middleware\ResourceMaker::class,
 ```
 In your `route/web.php` file add this lines
 ```php
-Route::group(['middleware' => ['resource.maker','auth.acl']], function () {    
-    Route::get('/home', 'HomeController@index');    
+Route::group(['middleware' => ['resource.maker','auth.acl']], function () {
+    Route::get('/home', 'HomeController@index');
 });
 ```
 *IMPORTANT*: `resource.maker` must have to be placed before `auth.acl`. In production you can remove `resource.maker` once you have all the resource generated.
@@ -163,6 +174,15 @@ if (hasRole(['Admin','Editor'])) {
 @endhasRole
 ```
 
+## Contribution
+```bash
+composer update
+vendor/bin/testbench workbench:install # not required
+vendor/bin/testbench workbench:create-sqlite-db
+vendor/bin/testbench migrate
+vendor/bin/testbench db:seed --class=Workbench\Database\Seeders\DatabaseSeeder
 
+vendor/bin/testbench package:test
+```
 
 

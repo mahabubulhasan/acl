@@ -14,14 +14,19 @@ class AttributeService implements AttributableInterface
     private $_resource = [];
     private $_is_parsed = false;
 
-    private function _parse(){
-        if($this->_is_parsed){return;}
-        if(!$this->_class_name){return;}
+    private function _parse()
+    {
+        if ($this->_is_parsed) {
+            return;
+        }
+        if (!$this->_class_name) {
+            return;
+        }
 
         $reflection = new ReflectionClass($this->_class_name);
 
         foreach ($reflection->getMethods() as $method) {
-            if($method->getName()==$this->_method){
+            if ($method->getName() == $this->_method) {
                 $this->_roles = $this->_readAttribute($method, Authorize::class);
                 $this->_resource = $this->_readAttribute($method, Resource::class);
             }
@@ -45,16 +50,17 @@ class AttributeService implements AttributableInterface
     public function getResourceName()
     {
         $this->_parse();
-        if(count($this->_resource)>0){
+        if (count($this->_resource) > 0) {
             return $this->_resource[0];
         }
+        return '';
     }
 
     public function getRoleString()
     {
         $this->_parse();
-        if(count($this->_roles)>0){
-            return $this->_roles[0];
+        if (count($this->_roles) > 0) {
+            return implode(', ', $this->_roles);
         }
     }
 
@@ -67,21 +73,22 @@ class AttributeService implements AttributableInterface
         $this->_is_parsed = false;
     }
 
-    public static function hasAuthorizeAttribute($action){
+    public static function hasAuthorizeAttribute($action)
+    {
         $className = '';
         $methodName = '';
         if (strpos($action, '@')) {
             list($className, $methodName) = explode('@', $action);
         }
 
-        if($className=='' || $methodName==''){
+        if ($className == '' || $methodName == '') {
             return false;
         }
 
         $reflection = new ReflectionClass($className);
 
         foreach ($reflection->getMethods() as $method) {
-            if($method->getName()==$methodName){
+            if ($method->getName() == $methodName) {
                 $attributes = $method->getAttributes(Authorize::class);
                 foreach ($attributes as $attr) {
                     if ($attr->getName() == Authorize::class) {
