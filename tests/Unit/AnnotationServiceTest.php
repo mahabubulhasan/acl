@@ -19,7 +19,7 @@ class AnnotationServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testAnnotations()
+    public function testAnnotationsRoleAsString()
     {
         $route = Route::getRoutes()->getByName('home.index');
         $action = $route->getAction();
@@ -32,5 +32,20 @@ class AnnotationServiceTest extends TestCase
 
         $this->assertEquals('Admin, Basic', $roles);
         $this->assertEquals('Can see homepage.', $resource);
+    }
+
+    public function testAnnotationsRoleAsArray()
+    {
+        $route = Route::getRoutes()->getByName('home.show');
+        $action = $route->getAction();
+
+        $service = new AttributeService();
+        $service->setAction($action['controller']);
+
+        $roles = $service->getRoleString();
+        $resource = $service->getResourceName();
+
+        $this->assertEquals('Admin, Basic', $roles);
+        $this->assertEquals('Can see show page.', $resource);
     }
 }

@@ -1,0 +1,23 @@
+providers:
+  - Uzzal\Acl\AclServiceProvider
+
+migrations:
+  - workbench/database/migrations
+  - src/database/migrations
+
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
+workbench:
+  start: '/'
+  install: false
+  health: false
+  discovers:
+    web: true
+    api: false
+    commands: false
+    components: false
+    views: false
+  build: []
+  assets: []
+  sync: []
